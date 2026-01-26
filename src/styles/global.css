@@ -1,5 +1,6 @@
-@import '@fontsource/nunito/400.css';
-@import '@fontsource/nunito/700.css';
+/* Only import Latin subset to reduce font size */
+@import '@fontsource/nunito/latin-400.css';
+@import '@fontsource/nunito/latin-700.css';
 
 @tailwind base;
 @tailwind components;

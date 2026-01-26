@@ -15,7 +15,13 @@ export default defineConfig({
     },
   },
   build: {
+    // Inline stylesheets under 8KB for faster FCP
     inlineStylesheets: 'auto',
+  },
+  vite: {
+    build: {
+      cssCodeSplit: false, // Bundle all CSS into one file
+    },
   },
   compressHTML: true,
   prefetch: true,
