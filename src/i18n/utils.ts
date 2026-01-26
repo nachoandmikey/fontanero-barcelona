@@ -100,9 +100,7 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
 }
 
 export function getLocalizedPath(path: string, lang: Lang): string {
-  // Spanish is at root, English has /en/ prefix
-  if (lang === 'es') {
-    return path.startsWith('/') ? path : `/${path}`;
-  }
-  return `/en${path.startsWith('/') ? path : `/${path}`}`;
+  // Both languages use root-level paths (no /es/ or /en/ prefix in URLs)
+  // Vercel rewrites handle domain-based routing internally
+  return path.startsWith('/') ? path : `/${path}`;
 }
