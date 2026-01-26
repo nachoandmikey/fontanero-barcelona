@@ -100,5 +100,9 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
 }
 
 export function getLocalizedPath(path: string, lang: Lang): string {
-  return `/${lang}${path}`;
+  // Spanish is at root, English has /en/ prefix
+  if (lang === 'es') {
+    return path.startsWith('/') ? path : `/${path}`;
+  }
+  return `/en${path.startsWith('/') ? path : `/${path}`}`;
 }
