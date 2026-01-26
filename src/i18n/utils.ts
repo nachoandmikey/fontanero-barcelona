@@ -40,10 +40,12 @@ export function useTranslations(lang: Lang) {
 }
 
 export function getAlternateUrls(currentPath: string, currentLang: Lang) {
-  const pathWithoutLang = currentPath.replace(/^\/(es|en)/, '');
+  // Normalize: remove lang prefix and trailing slash
+  let pathWithoutLang = currentPath.replace(/^\/(es|en)/, '').replace(/\/$/, '') || '/';
   
   // Map ES paths to EN paths
   const pathMappings: Record<string, string> = {
+    '': '',
     '/servicios': '/services',
     '/servicios/fugas-agua': '/services/water-leaks',
     '/servicios/desatascos': '/services/unclogging',
@@ -61,14 +63,29 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
   let enPath = pathWithoutLang;
   
   if (currentLang === 'es') {
-    enPath = pathMappings[pathWithoutLang] || pathWithoutLang.replace('/zonas/', '/areas/');
+    // Check exact match first, then try zone/area replacement
+    if (pathMappings[pathWithoutLang] !== undefined) {
+      enPath = pathMappings[pathWithoutLang];
+    } else if (pathWithoutLang.startsWith('/zonas/')) {
+      // Map neighborhood: /zonas/eixample -> /areas/eixample
+      enPath = pathWithoutLang.replace('/zonas/', '/areas/');
+    }
   } else {
-    esPath = reverseMappings[pathWithoutLang] || pathWithoutLang.replace('/areas/', '/zonas/');
+    // Check exact match first, then try area/zone replacement
+    if (reverseMappings[pathWithoutLang] !== undefined) {
+      esPath = reverseMappings[pathWithoutLang];
+    } else if (pathWithoutLang.startsWith('/areas/')) {
+      // Map neighborhood: /areas/eixample -> /zonas/eixample
+      esPath = pathWithoutLang.replace('/areas/', '/zonas/');
+    }
   }
   
+  // Add trailing slash for consistency
+  const addSlash = (p: string) => p === '' ? '/' : (p.endsWith('/') ? p : p + '/');
+  
   return {
-    es: `/es${esPath}`,
-    en: `/en${enPath}`,
+    es: `/es${addSlash(esPath)}`,
+    en: `/en${addSlash(enPath)}`,
   };
 }
 
