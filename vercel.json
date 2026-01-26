@@ -3,21 +3,11 @@
   "rewrites": [
     {
       "source": "/",
-      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
-      "destination": "/es/index.html"
-    },
-    {
-      "source": "/:path((?!es/|en/|_astro/).*)",
-      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
-      "destination": "/es/:path"
-    },
-    {
-      "source": "/",
       "has": [{ "type": "host", "value": "plumber.barcelona" }],
-      "destination": "/en/index.html"
+      "destination": "/en/"
     },
     {
-      "source": "/:path((?!es/|en/|_astro/).*)",
+      "source": "/:path((?!en/|_astro/).*)",
       "has": [{ "type": "host", "value": "plumber.barcelona" }],
       "destination": "/en/:path"
     }

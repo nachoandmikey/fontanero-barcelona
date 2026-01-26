@@ -9,8 +9,8 @@ const translations = {
 };
 
 export function getLangFromUrl(url: URL): Lang {
-  const [, lang] = url.pathname.split('/');
-  if (lang === 'en') return 'en';
+  // Spanish is at root, English is at /en/
+  if (url.pathname.startsWith('/en')) return 'en';
   return 'es';
 }
 
@@ -46,8 +46,9 @@ const DOMAINS = {
 };
 
 export function getAlternateUrls(currentPath: string, currentLang: Lang) {
-  // Normalize: remove lang prefix and trailing slash
-  let pathWithoutLang = currentPath.replace(/^\/(es|en)/, '').replace(/\/$/, '') || '/';
+  // Normalize: remove /en/ prefix if present, and trailing slash
+  // Spanish pages are at root (no prefix), English at /en/
+  let pathWithoutLang = currentPath.replace(/^\/en/, '').replace(/\/$/, '') || '/';
   
   // Map ES paths to EN paths
   const pathMappings: Record<string, string> = {
@@ -90,7 +91,8 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
   const addSlash = (p: string) => p === '' ? '/' : (p.endsWith('/') ? p : p + '/');
   
   // Return full URLs with correct domains
-  // Each domain handles its own language via Vercel rewrites
+  // fontanero.barcelona serves Spanish (root paths)
+  // plumber.barcelona serves English (rewrites to /en/ internally)
   return {
     es: `${DOMAINS.es}${addSlash(esPath)}`,
     en: `${DOMAINS.en}${addSlash(enPath)}`,

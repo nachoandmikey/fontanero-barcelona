@@ -1,9 +1,9 @@
 ---
-import Base from '../../../layouts/Base.astro';
-import PhoneCTA from '../../../components/PhoneCTA.astro';
-import TrustSignals from '../../../components/TrustSignals.astro';
-import { districts } from '../../../data/neighborhoods';
-import { PHONE, SITES } from '../../../lib/constants';
+import Base from '../../layouts/Base.astro';
+import PhoneCTA from '../../components/PhoneCTA.astro';
+import TrustSignals from '../../components/TrustSignals.astro';
+import { districts } from '../../data/neighborhoods';
+import { PHONE, SITES } from '../../lib/constants';
 
 const title = "Reparación de Fugas de Agua en Barcelona | Fontanero 24h";
 const description = `Servicio urgente de detección y reparación de fugas de agua en Barcelona. Fontaneros profesionales disponibles 24/7. Llegamos en menos de 1 hora. ☎ ${PHONE.display}`;
@@ -109,7 +109,7 @@ const schema = {
         ))}
       </div>
       <div class="text-center">
-        <a href="/es/zonas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+        <a href="/zonas/" class="text-primary-600 hover:text-primary-700 font-semibold">
           Ver todas las zonas →
         </a>
       </div>
