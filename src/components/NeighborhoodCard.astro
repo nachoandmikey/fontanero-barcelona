@@ -1,0 +1,27 @@
+---
+import { getLangFromUrl, getLocalizedPath } from '../i18n/utils';
+import type { Neighborhood } from '../data/neighborhoods';
+
+interface Props {
+  neighborhood: Neighborhood;
+}
+
+const { neighborhood } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+
+const name = lang === 'es' ? neighborhood.nameEs : neighborhood.nameEn;
+const basePath = lang === 'es' ? '/zonas' : '/areas';
+const href = getLocalizedPath(`${basePath}/${neighborhood.id}`, lang);
+---
+
+<a 
+  href={href}
+  class="block bg-white rounded-lg shadow hover:shadow-md transition-shadow p-4 group border border-gray-100"
+>
+  <h3 class="font-semibold text-gray-800 group-hover:text-primary-600 transition-colors">
+    {name}
+  </h3>
+  <p class="text-sm text-gray-500 mt-1">
+    {neighborhood.district}
+  </p>
+</a>

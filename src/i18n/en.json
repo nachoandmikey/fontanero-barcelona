@@ -1,0 +1,86 @@
+{
+  "site": {
+    "name": "Plumber Barcelona",
+    "tagline": "Professional plumbers in Barcelona 24h"
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "areas": "Areas",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Plumber in Barcelona",
+    "subtitle": "24-hour emergency plumbing service",
+    "description": "We fix water leaks, unclog drains and repair plumbing issues in less than 1 hour. Free quote.",
+    "cta": "Call us now"
+  },
+  "services": {
+    "title": "Our Services",
+    "subtitle": "Professional plumbing solutions",
+    "waterLeaks": {
+      "title": "Water Leaks",
+      "description": "Detection and repair of water leaks in pipes, faucets and cisterns.",
+      "slug": "water-leaks"
+    },
+    "unclogging": {
+      "title": "Drain Unclogging",
+      "description": "Professional unclogging of pipes, drains, sinks and toilets.",
+      "slug": "unclogging"
+    },
+    "emergency": {
+      "title": "24h Emergency",
+      "description": "Emergency service 24 hours a day, 7 days a week.",
+      "slug": "emergency"
+    }
+  },
+  "areas": {
+    "title": "Barcelona Areas",
+    "subtitle": "Coverage in all Barcelona neighborhoods",
+    "allAreas": "View all areas",
+    "servicesIn": "Plumbing services in"
+  },
+  "cta": {
+    "call": "Call now",
+    "whatsapp": "WhatsApp",
+    "freeQuote": "Free quote",
+    "callUs": "Call us"
+  },
+  "trust": {
+    "fast": "Fast response",
+    "fastDesc": "We arrive in less than 1 hour",
+    "available": "Available 24/7",
+    "availableDesc": "Every day of the year",
+    "professional": "Professional",
+    "professionalDesc": "Licensed plumbers with experience",
+    "guarantee": "Guarantee",
+    "guaranteeDesc": "Warranty on all work"
+  },
+  "footer": {
+    "description": "Professional plumbers in Barcelona. 24h emergencies.",
+    "services": "Services",
+    "areas": "Areas",
+    "contact": "Contact",
+    "rights": "All rights reserved"
+  },
+  "contact": {
+    "title": "Contact",
+    "subtitle": "We're here to help",
+    "phone": "Phone",
+    "whatsapp": "WhatsApp",
+    "location": "Location",
+    "hours": "Hours",
+    "hoursValue": "24 hours, 7 days a week"
+  },
+  "neighborhood": {
+    "title": "Plumber in {name}",
+    "metaTitle": "Plumber in {name} | 24h Emergency Barcelona",
+    "metaDescription": "Emergency plumber in {name}, Barcelona. 24-hour service for water leaks, drain unclogging and repairs. We arrive in less than 1 hour.",
+    "intro": "Need a plumber in {name}? We offer emergency plumbing service throughout {name} and surrounding areas.",
+    "servicesTitle": "Services available in {name}",
+    "responseTime": "Response time in {name}",
+    "responseTimeValue": "Less than 1 hour",
+    "coverage": "Full coverage in {district}"
+  },
+  "whatsappMessage": "Hello, I need an emergency plumber"
+}

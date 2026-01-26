@@ -1,0 +1,86 @@
+{
+  "site": {
+    "name": "Fontanero Barcelona",
+    "tagline": "Fontaneros profesionales en Barcelona 24h"
+  },
+  "nav": {
+    "home": "Inicio",
+    "services": "Servicios",
+    "areas": "Zonas",
+    "contact": "Contacto"
+  },
+  "hero": {
+    "title": "Fontanero en Barcelona",
+    "subtitle": "Servicio de fontanería urgente 24 horas",
+    "description": "Reparamos fugas de agua, desatascos y averías en menos de 1 hora. Presupuesto gratis.",
+    "cta": "Llámanos ahora"
+  },
+  "services": {
+    "title": "Nuestros Servicios",
+    "subtitle": "Soluciones profesionales de fontanería",
+    "waterLeaks": {
+      "title": "Fugas de Agua",
+      "description": "Detección y reparación de fugas de agua en tuberías, grifos y cisternas.",
+      "slug": "fugas-agua"
+    },
+    "unclogging": {
+      "title": "Desatascos",
+      "description": "Desatascamos tuberías, desagües, fregaderos y WC con equipos profesionales.",
+      "slug": "desatascos"
+    },
+    "emergency": {
+      "title": "Urgencias 24h",
+      "description": "Servicio de urgencias las 24 horas del día, los 7 días de la semana.",
+      "slug": "urgencias"
+    }
+  },
+  "areas": {
+    "title": "Zonas de Barcelona",
+    "subtitle": "Cobertura en todos los barrios de Barcelona",
+    "allAreas": "Ver todas las zonas",
+    "servicesIn": "Servicios de fontanería en"
+  },
+  "cta": {
+    "call": "Llamar ahora",
+    "whatsapp": "WhatsApp",
+    "freeQuote": "Presupuesto gratis",
+    "callUs": "Llámanos"
+  },
+  "trust": {
+    "fast": "Respuesta rápida",
+    "fastDesc": "Llegamos en menos de 1 hora",
+    "available": "Disponible 24/7",
+    "availableDesc": "Todos los días del año",
+    "professional": "Profesionales",
+    "professionalDesc": "Fontaneros titulados con experiencia",
+    "guarantee": "Garantía",
+    "guaranteeDesc": "Garantía en todos los trabajos"
+  },
+  "footer": {
+    "description": "Fontaneros profesionales en Barcelona. Urgencias 24h.",
+    "services": "Servicios",
+    "areas": "Zonas",
+    "contact": "Contacto",
+    "rights": "Todos los derechos reservados"
+  },
+  "contact": {
+    "title": "Contacto",
+    "subtitle": "Estamos aquí para ayudarte",
+    "phone": "Teléfono",
+    "whatsapp": "WhatsApp",
+    "location": "Ubicación",
+    "hours": "Horario",
+    "hoursValue": "24 horas, 7 días a la semana"
+  },
+  "neighborhood": {
+    "title": "Fontanero en {name}",
+    "metaTitle": "Fontanero en {name} | Urgencias 24h Barcelona",
+    "metaDescription": "Fontanero urgente en {name}, Barcelona. Servicio 24 horas para fugas de agua, desatascos y averías. Llegamos en menos de 1 hora.",
+    "intro": "¿Necesitas un fontanero en {name}? Ofrecemos servicio de fontanería urgente en todo el barrio de {name} y alrededores.",
+    "servicesTitle": "Servicios disponibles en {name}",
+    "responseTime": "Tiempo de respuesta en {name}",
+    "responseTimeValue": "Menos de 1 hora",
+    "coverage": "Cobertura completa en {district}"
+  },
+  "whatsappMessage": "Hola, necesito un fontanero urgente"
+}

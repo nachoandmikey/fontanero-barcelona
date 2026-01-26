@@ -1,0 +1,133 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+const title = "24 Hour Emergency Plumber Barcelona | Emergencies";
+const description = `Emergency plumbing service in Barcelona available 24 hours, 7 days a week. We arrive in less than 1 hour to any neighborhood. ☎ ${PHONE.display}`;
+
+// Get all districts for comprehensive coverage listing
+const allDistrictNames = districts.map(d => d.nameEn);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "24 Hour Emergency Plumber",
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Plumber Barcelona",
+    "telephone": PHONE.international,
+    "url": SITES.en
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "serviceType": "Emergency Plumbing",
+  "hoursAvailable": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  }
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-red-600 to-red-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🚨 24h Emergency Plumber</h1>
+      <p class="text-xl text-red-100 mb-8">
+        Plumbing emergencies in Barcelona - We arrive in less than 1 hour
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Content -->
+  <section class="py-16" aria-labelledby="main-content">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="main-content">24-hour plumbing emergency service</h2>
+      <p>
+        Plumbing emergencies don't give warning. That's why our <strong>emergency plumbers in 
+        Barcelona</strong> are available 24 hours a day, 7 days a week, including holidays. 
+        When you call us, a professional plumber heads to your home in less than 1 hour.
+      </p>
+
+      <h3>Emergencies we handle:</h3>
+      <ul>
+        <li>🚨 Burst pipes and flooding</li>
+        <li>🚨 Serious water leaks</li>
+        <li>🚨 Clogs that prevent bathroom use</li>
+        <li>🚨 Water heater or boiler failures</li>
+        <li>🚨 Water supply cuts in your home</li>
+        <li>🚨 Shut-off valve problems</li>
+        <li>🚨 Overflows and moisture damage</li>
+      </ul>
+
+      <h3>Our response guarantee:</h3>
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 not-prose my-6">
+        <p class="font-bold text-red-800 text-lg">⏱️ We arrive in less than 1 hour</p>
+        <p class="text-red-700">From the moment you call, a plumber heads to your home immediately. No waiting, no excuses.</p>
+      </div>
+
+      <h3>What to do while waiting for the plumber?</h3>
+      <ol>
+        <li><strong>Turn off the main valve</strong> - Prevent further water damage by cutting the supply</li>
+        <li><strong>Disconnect electricity</strong> - If there's risk of water contacting electrical installations</li>
+        <li><strong>Collect water</strong> - Use towels, buckets or mops to minimize damage</li>
+        <li><strong>Document damage</strong> - Take photos for your insurance company</li>
+        <li><strong>Call us immediately</strong> - The sooner we act, the less damage there will be</li>
+      </ol>
+
+      <h3>Coverage throughout Barcelona</h3>
+      <p>
+        We handle emergencies in <strong>all Barcelona districts</strong>: 
+        {allDistrictNames.join(', ')}.
+      </p>
+    </div>
+  </section>
+
+  <!-- Districts coverage -->
+  <section class="py-16 bg-gray-50" aria-labelledby="coverage-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="coverage-heading" class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        24h emergencies in all Barcelona neighborhoods
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        {districts.map(d => (
+          <a 
+            href={`/en/areas/${d.neighborhoods[0].id}/`}
+            class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow text-center group"
+          >
+            <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors text-sm">
+              {d.nameEn}
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/en/areas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+          View all neighborhoods →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-red-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">Have a plumbing emergency?</h2>
+      <p class="text-xl text-red-100 mb-8">
+        Call us now - We're available 24 hours, 7 days a week
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

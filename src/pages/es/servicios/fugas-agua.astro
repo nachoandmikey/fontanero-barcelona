@@ -1,0 +1,129 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+const title = "Reparación de Fugas de Agua en Barcelona | Fontanero 24h";
+const description = `Servicio urgente de detección y reparación de fugas de agua en Barcelona. Fontaneros profesionales disponibles 24/7. Llegamos en menos de 1 hora. ☎ ${PHONE.display}`;
+
+// Get featured neighborhoods for internal linking
+const featuredNeighborhoods = [
+  districts[0].neighborhoods[0], // El Raval
+  districts[1].neighborhoods[0], // Dreta Eixample
+  districts[5].neighborhoods[0], // Vila de Gràcia
+  districts[9].neighborhoods[4], // Poblenou
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Reparación de Fugas de Agua",
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Fontanero Barcelona",
+    "telephone": PHONE.international,
+    "url": SITES.es
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "serviceType": "Plumbing - Water Leak Repair"
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">💧 Reparación de Fugas de Agua</h1>
+      <p class="text-xl text-primary-100 mb-8">
+        Detección y reparación urgente de fugas en tuberías, grifos y cisternas
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Content -->
+  <section class="py-16" aria-labelledby="main-content">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="main-content">¿Tienes una fuga de agua en Barcelona?</h2>
+      <p>
+        Las fugas de agua pueden causar daños importantes en tu hogar si no se reparan a tiempo. 
+        Nuestros <strong>fontaneros profesionales en Barcelona</strong> utilizan equipos de detección 
+        avanzados para localizar y reparar cualquier tipo de fuga de forma rápida y eficiente.
+      </p>
+
+      <h3>Tipos de fugas que reparamos:</h3>
+      <ul>
+        <li>Fugas en tuberías empotradas y vistas</li>
+        <li>Fugas en grifos y sanitarios</li>
+        <li>Fugas en cisternas e inodoros</li>
+        <li>Fugas en calentadores y calderas</li>
+        <li>Fugas en bajantes y desagües</li>
+        <li>Fugas por condensación</li>
+      </ul>
+
+      <h3>Nuestro proceso de reparación:</h3>
+      <ol>
+        <li><strong>Inspección</strong> - Evaluamos la situación y localizamos la fuga con equipos de detección</li>
+        <li><strong>Diagnóstico</strong> - Te explicamos el problema y las opciones de reparación</li>
+        <li><strong>Presupuesto</strong> - Te damos un precio cerrado sin sorpresas</li>
+        <li><strong>Reparación</strong> - Solucionamos el problema de forma definitiva</li>
+        <li><strong>Garantía</strong> - Todos nuestros trabajos tienen garantía</li>
+      </ol>
+
+      <h3>¿Por qué elegirnos para tu fuga de agua?</h3>
+      <ul>
+        <li>✅ Respuesta en menos de 1 hora en toda Barcelona</li>
+        <li>✅ Disponibles 24 horas, 7 días a la semana</li>
+        <li>✅ Fontaneros titulados y con experiencia</li>
+        <li>✅ Equipos de detección de fugas no destructivos</li>
+        <li>✅ Precios transparentes sin sorpresas</li>
+        <li>✅ Garantía en todos los trabajos</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Neighborhoods -->
+  <section class="py-16 bg-gray-50" aria-labelledby="areas-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="areas-heading" class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Reparamos fugas de agua en todos los barrios de Barcelona
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {featuredNeighborhoods.map(n => (
+          <a 
+            href={`/es/zonas/${n.id}/`}
+            class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow text-center group"
+          >
+            <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+              {n.nameEs}
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/es/zonas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+          Ver todas las zonas →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">¿Tienes una fuga de agua?</h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Llámanos ahora y solucionamos tu problema hoy mismo
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

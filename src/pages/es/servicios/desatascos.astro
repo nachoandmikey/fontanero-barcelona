@@ -1,0 +1,128 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+const title = "Desatascos en Barcelona | Fontanero Urgente 24h";
+const description = `Servicio profesional de desatascos en Barcelona. Desatascamos tuberías, desagües, fregaderos y WC con equipos profesionales. Disponible 24/7. ☎ ${PHONE.display}`;
+
+// Get featured neighborhoods for internal linking
+const featuredNeighborhoods = [
+  districts[0].neighborhoods[0], // El Raval
+  districts[1].neighborhoods[0], // Dreta Eixample
+  districts[5].neighborhoods[0], // Vila de Gràcia
+  districts[9].neighborhoods[4], // Poblenou
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Servicio de Desatascos",
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Fontanero Barcelona",
+    "telephone": PHONE.international,
+    "url": SITES.es
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "serviceType": "Plumbing - Drain Unclogging"
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🚿 Servicio de Desatascos</h1>
+      <p class="text-xl text-primary-100 mb-8">
+        Desatascamos tuberías, desagües, fregaderos y WC con equipos profesionales
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Content -->
+  <section class="py-16" aria-labelledby="main-content">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="main-content">Servicio profesional de desatascos en Barcelona</h2>
+      <p>
+        Los atascos son uno de los problemas de fontanería más comunes y molestos. 
+        Nuestro equipo de <strong>fontaneros profesionales en Barcelona</strong> cuenta con 
+        herramientas profesionales como máquinas de desatasco y cámaras de inspección 
+        para resolver cualquier obstrucción de forma eficaz.
+      </p>
+
+      <h3>Tipos de desatascos que realizamos:</h3>
+      <ul>
+        <li>Desatascos de fregaderos y lavabos</li>
+        <li>Desatascos de inodoros y WC</li>
+        <li>Desatascos de bañeras y duchas</li>
+        <li>Desatascos de tuberías generales</li>
+        <li>Desatascos de bajantes</li>
+        <li>Limpieza de arquetas y sifones</li>
+      </ul>
+
+      <h3>Equipamiento profesional:</h3>
+      <ul>
+        <li><strong>Máquinas de desatasco</strong> - Para eliminar las obstrucciones más difíciles</li>
+        <li><strong>Cámaras de inspección</strong> - Para localizar el origen del problema con precisión</li>
+        <li><strong>Equipos de alta presión</strong> - Para limpiezas profundas y efectivas</li>
+        <li><strong>Productos profesionales</strong> - Seguros para tuberías y medio ambiente</li>
+      </ul>
+
+      <h3>Señales de que necesitas un desatasco:</h3>
+      <ul>
+        <li>⚠️ El agua tarda en irse por el desagüe</li>
+        <li>⚠️ Malos olores en baños o cocina</li>
+        <li>⚠️ Ruidos extraños en las tuberías</li>
+        <li>⚠️ Agua que sube por otros desagües</li>
+        <li>⚠️ El inodoro no vacía correctamente</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Neighborhoods -->
+  <section class="py-16 bg-gray-50" aria-labelledby="areas-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="areas-heading" class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Desatascos en todos los barrios de Barcelona
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {featuredNeighborhoods.map(n => (
+          <a 
+            href={`/es/zonas/${n.id}/`}
+            class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow text-center group"
+          >
+            <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+              {n.nameEs}
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/es/zonas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+          Ver todas las zonas →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">¿Tienes un atasco?</h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Llámanos ahora y lo solucionamos en menos de 1 hora
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,129 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+const title = "Water Leak Repair in Barcelona | 24h Plumber";
+const description = `Emergency water leak detection and repair in Barcelona. Professional plumbers available 24/7. We arrive in less than 1 hour. ☎ ${PHONE.display}`;
+
+// Get featured neighborhoods for internal linking
+const featuredNeighborhoods = [
+  districts[0].neighborhoods[0], // El Raval
+  districts[1].neighborhoods[0], // Dreta Eixample
+  districts[5].neighborhoods[0], // Vila de Gràcia
+  districts[9].neighborhoods[4], // Poblenou
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Water Leak Repair",
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Plumber Barcelona",
+    "telephone": PHONE.international,
+    "url": SITES.en
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "serviceType": "Plumbing - Water Leak Repair"
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">💧 Water Leak Repair</h1>
+      <p class="text-xl text-primary-100 mb-8">
+        Emergency detection and repair of leaks in pipes, faucets and cisterns
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Content -->
+  <section class="py-16" aria-labelledby="main-content">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="main-content">Do you have a water leak in Barcelona?</h2>
+      <p>
+        Water leaks can cause significant damage to your home if not repaired quickly. 
+        Our <strong>professional plumbers in Barcelona</strong> use advanced detection equipment 
+        to locate and repair any type of leak quickly and efficiently.
+      </p>
+
+      <h3>Types of leaks we repair:</h3>
+      <ul>
+        <li>Leaks in embedded and exposed pipes</li>
+        <li>Faucet and sanitary fixture leaks</li>
+        <li>Cistern and toilet leaks</li>
+        <li>Water heater and boiler leaks</li>
+        <li>Drain pipe and sewage leaks</li>
+        <li>Condensation leaks</li>
+      </ul>
+
+      <h3>Our repair process:</h3>
+      <ol>
+        <li><strong>Inspection</strong> - We assess the situation and locate the leak with detection equipment</li>
+        <li><strong>Diagnosis</strong> - We explain the problem and repair options</li>
+        <li><strong>Quote</strong> - We give you a fixed price with no surprises</li>
+        <li><strong>Repair</strong> - We solve the problem permanently</li>
+        <li><strong>Warranty</strong> - All our work is guaranteed</li>
+      </ol>
+
+      <h3>Why choose us for your water leak?</h3>
+      <ul>
+        <li>✅ Response in less than 1 hour throughout Barcelona</li>
+        <li>✅ Available 24 hours, 7 days a week</li>
+        <li>✅ Licensed and experienced plumbers</li>
+        <li>✅ Non-destructive leak detection equipment</li>
+        <li>✅ Transparent pricing with no surprises</li>
+        <li>✅ Warranty on all work</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Neighborhoods -->
+  <section class="py-16 bg-gray-50" aria-labelledby="areas-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="areas-heading" class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        We repair water leaks in all Barcelona neighborhoods
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {featuredNeighborhoods.map(n => (
+          <a 
+            href={`/en/areas/${n.id}/`}
+            class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow text-center group"
+          >
+            <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+              {n.nameEn}
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/en/areas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+          View all areas →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">Have a water leak?</h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Call us now and we'll fix your problem today
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

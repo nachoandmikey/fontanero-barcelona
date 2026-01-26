@@ -1,0 +1,65 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations } from '../../i18n/utils';
+import { PHONE, PHONE_URL, WHATSAPP_URL } from '../../lib/constants';
+import PhoneCTA from '../../components/PhoneCTA.astro';
+
+const t = useTranslations('es');
+---
+
+<Base 
+  title="Contacto | Fontanero Barcelona"
+  description="Contacta con nuestros fontaneros en Barcelona. Teléfono, WhatsApp y más. Disponibles 24 horas."
+>
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">{t('contact.title')}</h1>
+        <p class="text-gray-600 text-lg">{t('contact.subtitle')}</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-8">
+        <!-- Phone -->
+        <a 
+          href={PHONE_URL}
+          class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow"
+        >
+          <div class="text-5xl mb-4">📞</div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">{t('contact.phone')}</h2>
+          <p class="text-2xl font-bold text-primary-600">{PHONE.display}</p>
+          <p class="text-sm text-gray-500 mt-2">{t('contact.hoursValue')}</p>
+        </a>
+
+        <!-- WhatsApp -->
+        <a 
+          href={WHATSAPP_URL}
+          target="_blank"
+          rel="noopener"
+          class="bg-white rounded-xl shadow-lg p-8 text-center hover:shadow-xl transition-shadow"
+        >
+          <div class="text-5xl mb-4">💬</div>
+          <h2 class="text-xl font-bold text-gray-800 mb-2">{t('contact.whatsapp')}</h2>
+          <p class="text-2xl font-bold text-green-600">WhatsApp</p>
+          <p class="text-sm text-gray-500 mt-2">Respuesta inmediata</p>
+        </a>
+      </div>
+
+      <div class="mt-12 bg-gray-50 rounded-xl p-8">
+        <div class="grid md:grid-cols-2 gap-8">
+          <div>
+            <h3 class="font-bold text-gray-800 mb-2">📍 {t('contact.location')}</h3>
+            <p class="text-gray-600">Barcelona y área metropolitana</p>
+          </div>
+          <div>
+            <h3 class="font-bold text-gray-800 mb-2">🕐 {t('contact.hours')}</h3>
+            <p class="text-gray-600">{t('contact.hoursValue')}</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-12">
+        <PhoneCTA size="lg" />
+      </div>
+    </div>
+  </section>
+</Base>

@@ -1,0 +1,194 @@
+---
+import { getLangFromUrl, useTranslations, getAlternateUrls } from '../i18n/utils';
+import { PHONE, SITES, WHATSAPP_URL } from '../lib/constants';
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import WhatsAppButton from '../components/WhatsAppButton.astro';
+
+interface Props {
+  title: string;
+  description?: string;
+  ogImage?: string;
+  schema?: object;
+  noIndex?: boolean;
+}
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const { 
+  title, 
+  description = lang === 'es' 
+    ? "Fontaneros urgentes en Barcelona 24 horas. Reparamos fugas de agua, desatascos y averías. Llegamos en menos de 1 hora. Presupuesto gratis."
+    : "Emergency plumbers in Barcelona 24 hours. We fix water leaks, unclog drains and repair plumbing issues. We arrive in less than 1 hour. Free quote.",
+  ogImage = "/og-image.jpg",
+  schema,
+  noIndex = false,
+} = Astro.props;
+
+// Get the correct site URL based on language
+const site = lang === 'es' ? SITES.es : SITES.en;
+
+// Absolute canonical URL
+const canonicalURL = new URL(Astro.url.pathname, site).href;
+const absoluteOgImage = ogImage.startsWith('http') ? ogImage : new URL(ogImage, site).href;
+
+// Get alternate language URLs for hreflang
+const alternates = getAlternateUrls(Astro.url.pathname, lang);
+const esUrl = new URL(alternates.es, SITES.es).href;
+const enUrl = new URL(alternates.en, SITES.en).href;
+
+// Generate breadcrumbs from URL path
+const pathParts = Astro.url.pathname.split('/').filter(Boolean);
+const breadcrumbItems: Array<{name: string, url: string}> = [];
+
+// Path name mappings for both languages
+const pathNamesEs: Record<string, string> = {
+  'es': 'Inicio',
+  'servicios': 'Servicios',
+  'zonas': 'Zonas',
+  'contacto': 'Contacto',
+  'fugas-agua': 'Fugas de Agua',
+  'desatascos': 'Desatascos',
+  'urgencias': 'Urgencias 24h',
+};
+
+const pathNamesEn: Record<string, string> = {
+  'en': 'Home',
+  'services': 'Services',
+  'areas': 'Areas',
+  'contact': 'Contact',
+  'water-leaks': 'Water Leaks',
+  'unclogging': 'Drain Unclogging',
+  'emergency': '24h Emergency',
+};
+
+const pathNames = lang === 'es' ? pathNamesEs : pathNamesEn;
+
+// Build breadcrumb trail
+let currentPath = '';
+for (const part of pathParts) {
+  currentPath += `/${part}`;
+  const name = pathNames[part] || part.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' ');
+  breadcrumbItems.push({ 
+    name, 
+    url: new URL(currentPath + '/', site).href 
+  });
+}
+
+// Default LocalBusiness schema
+const defaultSchema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": t('site.name'),
+  "description": description,
+  "url": site,
+  "telephone": PHONE.international,
+  "image": absoluteOgImage,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Barcelona",
+    "addressRegion": lang === 'es' ? "Cataluña" : "Catalonia",
+    "addressCountry": "ES"
+  },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 41.3851,
+    "longitude": 2.1734
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "priceRange": "€€"
+};
+
+const finalSchema = schema || defaultSchema;
+
+// Breadcrumb schema (only if more than 1 item)
+const breadcrumbSchema = breadcrumbItems.length > 1 ? {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbItems.map((item, index) => ({
+    "@type": "ListItem",
+    "position": index + 1,
+    "name": item.name,
+    "item": item.url
+  }))
+} : null;
+---
+
+<!DOCTYPE html>
+<html lang={lang}>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="theme-color" content="#2563eb" />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    
+    <!-- Canonical & hreflang -->
+    <link rel="canonical" href={canonicalURL} />
+    <link rel="alternate" hreflang="es" href={esUrl} />
+    <link rel="alternate" hreflang="en" href={enUrl} />
+    <link rel="alternate" hreflang="x-default" href={esUrl} />
+    
+    <!-- Open Graph -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonicalURL} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:locale" content={lang === 'es' ? 'es_ES' : 'en_US'} />
+    <meta property="og:site_name" content={t('site.name')} />
+    
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    
+    <title>{title}</title>
+    
+    <!-- OpenPanel Analytics -->
+    <script is:inline>
+      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
+      window.op('init', {
+        clientId: '0708e62d-df2f-4bfc-8c27-c9cabb7ebe46',
+        trackScreenViews: true,
+        trackOutgoingLinks: true,
+        trackAttributes: true
+      });
+    </script>
+    <script src="https://openpanel.dev/op1.js" defer async is:inline></script>
+    
+    <!-- Schema.org LocalBusiness -->
+    <script type="application/ld+json" set:html={JSON.stringify(finalSchema)} />
+    
+    <!-- Schema.org BreadcrumbList -->
+    {breadcrumbSchema && (
+      <script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} />
+    )}
+  </head>
+  <body class="bg-white text-gray-800 font-sans antialiased min-h-screen flex flex-col">
+    <Header />
+    
+    <main class="flex-1">
+      <slot />
+    </main>
+    
+    <Footer />
+    <WhatsAppButton />
+  </body>
+</html>

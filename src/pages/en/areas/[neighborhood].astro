@@ -1,0 +1,241 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { allNeighborhoods, districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+export function getStaticPaths() {
+  return allNeighborhoods.map(n => ({
+    params: { neighborhood: n.id },
+    props: { neighborhood: n }
+  }));
+}
+
+const { neighborhood } = Astro.props;
+const t = useTranslations('en');
+
+// SEO-optimized title: "Plumber in [Neighborhood] | Barcelona 24h"
+const title = `Plumber in ${neighborhood.nameEn} | Barcelona 24h`;
+const description = `Emergency plumber in ${neighborhood.nameEn}, Barcelona. 24-hour service for water leaks, drain unclogging and repairs. We arrive in less than 1 hour. ☎ ${PHONE.display}`;
+
+// Get district for context
+const district = districts.find(d => d.id === neighborhood.districtId);
+
+// Get related neighborhoods (same district, excluding current)
+const sameDistrictNeighborhoods = district?.neighborhoods.filter(n => n.id !== neighborhood.id) || [];
+
+// Get nearby districts' neighborhoods for broader internal linking
+const districtIndex = districts.findIndex(d => d.id === neighborhood.districtId);
+const nearbyDistricts = [
+  districts[districtIndex - 1],
+  districts[districtIndex + 1]
+].filter(Boolean);
+const nearbyNeighborhoods = nearbyDistricts.flatMap(d => d.neighborhoods.slice(0, 2));
+
+// Schema with specific areaServed
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": `Plumber in ${neighborhood.nameEn}`,
+  "description": description,
+  "url": `${SITES.en}/areas/${neighborhood.id}/`,
+  "telephone": PHONE.international,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Barcelona",
+    "addressRegion": "Catalonia",
+    "addressCountry": "ES"
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": neighborhood.nameEn,
+    "containedInPlace": {
+      "@type": "City",
+      "name": "Barcelona"
+    }
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "priceRange": "€€"
+};
+
+// Services with neighborhood-specific links
+const services = [
+  { 
+    icon: '💧', 
+    title: `Water leaks in ${neighborhood.nameEn}`,
+    desc: 'Detection and repair of leaks in pipes, faucets and cisterns.',
+    href: '/en/services/water-leaks'
+  },
+  { 
+    icon: '🚿', 
+    title: `Drain unclogging in ${neighborhood.nameEn}`,
+    desc: 'Professional unclogging of pipes, drains, sinks and toilets.',
+    href: '/en/services/unclogging'
+  },
+  { 
+    icon: '🚨', 
+    title: `24h Emergency in ${neighborhood.nameEn}`,
+    desc: 'Emergency service 24 hours a day, 7 days a week.',
+    href: '/en/services/emergency'
+  },
+];
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        🔧 Plumber in {neighborhood.nameEn}
+      </h1>
+      <p class="text-xl text-primary-100 mb-2">
+        Full coverage in {neighborhood.district}
+      </p>
+      <p class="text-lg text-primary-200 mb-8 max-w-2xl mx-auto">
+        Need a plumber in {neighborhood.nameEn}? We offer emergency plumbing service 
+        throughout {neighborhood.nameEn} and surrounding areas. We arrive in less than 1 hour.
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Services in this neighborhood -->
+  <section class="py-16" aria-labelledby="services-heading">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 id="services-heading" class="text-3xl font-bold text-gray-800 mb-8 text-center">
+        Plumbing services in {neighborhood.nameEn}
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {services.map(service => (
+          <a 
+            href={service.href}
+            class="block bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 group"
+          >
+            <div class="text-4xl mb-4" aria-hidden="true">{service.icon}</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-primary-600 transition-colors">
+              {service.title}
+            </h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              {service.desc}
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Response time & info -->
+  <section class="py-16 bg-gray-50" aria-labelledby="info-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="info-heading" class="sr-only">Service information</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">⏱️ Response time</h3>
+          <p class="text-3xl font-bold text-primary-600">Less than 1 hour</p>
+          <p class="text-gray-600 mt-2">In {neighborhood.nameEn} and all of {neighborhood.district}</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">📍 Coverage area</h3>
+          <p class="text-gray-600">{neighborhood.district}, Barcelona</p>
+          <p class="text-sm text-gray-500 mt-2">24-hour service, every day</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content for SEO -->
+  <section class="py-16" aria-labelledby="about-heading">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="about-heading">Professional plumber in {neighborhood.nameEn}</h2>
+      <p>
+        If you're looking for a <strong>plumber in {neighborhood.nameEn}</strong>, you've come to the right place. 
+        We specialize in solving all types of plumbing problems in the {neighborhood.nameEn} neighborhood 
+        and throughout the {neighborhood.district} area.
+      </p>
+      <p>
+        Our team of professional plumbers is available <strong>24 hours a day, 
+        7 days a week</strong>, to handle any plumbing emergency. Whether it's a 
+        water leak, a clog, or any other issue, we'll arrive at your home in 
+        {neighborhood.nameEn} in less than 1 hour.
+      </p>
+      
+      <h3>Why choose us in {neighborhood.nameEn}?</h3>
+      <ul>
+        <li><strong>Fast response</strong>: We arrive in less than 1 hour anywhere in {neighborhood.nameEn}</li>
+        <li><strong>24/7 availability</strong>: We handle emergencies at any time</li>
+        <li><strong>Professional plumbers</strong>: Licensed team with years of experience</li>
+        <li><strong>Transparent pricing</strong>: Free quote with no obligation</li>
+        <li><strong>Guarantee</strong>: All our work is guaranteed</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Related neighborhoods (same district) -->
+  {sameDistrictNeighborhoods.length > 0 && (
+    <section class="py-16 bg-gray-50" aria-labelledby="related-heading">
+      <div class="max-w-4xl mx-auto px-4">
+        <h2 id="related-heading" class="text-2xl font-bold text-gray-800 mb-6">
+          Other areas in {neighborhood.district}
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {sameDistrictNeighborhoods.map(n => (
+            <a 
+              href={`/en/areas/${n.id}/`}
+              class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow group"
+            >
+              <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+                {n.nameEn}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Nearby neighborhoods (adjacent districts) -->
+  {nearbyNeighborhoods.length > 0 && (
+    <section class="py-16" aria-labelledby="nearby-heading">
+      <div class="max-w-4xl mx-auto px-4">
+        <h2 id="nearby-heading" class="text-2xl font-bold text-gray-800 mb-6">
+          Areas near {neighborhood.nameEn}
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {nearbyNeighborhoods.map(n => (
+            <a 
+              href={`/en/areas/${n.id}/`}
+              class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow group"
+            >
+              <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+                {n.nameEn}
+              </span>
+              <span class="text-sm text-gray-500 block">{n.district}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">
+        Need a plumber in {neighborhood.nameEn}?
+      </h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Call us now and we'll arrive in less than 1 hour
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

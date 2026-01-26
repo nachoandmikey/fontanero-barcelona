@@ -1,0 +1,28 @@
+{
+  "rewrites": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/:path*"
+    },
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/:path*"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/_astro/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    },
+    {
+      "source": "/fonts/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}

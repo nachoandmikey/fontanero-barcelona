@@ -1,0 +1,40 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import NeighborhoodCard from '../../../components/NeighborhoodCard.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import { districts } from '../../../data/neighborhoods';
+
+const t = useTranslations('es');
+---
+
+<Base 
+  title="Fontanero en Barcelona - Todas las Zonas | Cobertura Completa"
+  description="Servicio de fontanería en todos los barrios de Barcelona. Eixample, Gràcia, Ciutat Vella, Sant Martí y más. Llegamos en menos de 1 hora."
+>
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">{t('areas.title')}</h1>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">{t('areas.subtitle')}</p>
+      </div>
+
+      {districts.map(district => (
+        <div class="mb-12">
+          <h2 class="text-2xl font-bold text-gray-800 mb-4 border-b pb-2">
+            {district.nameEs}
+          </h2>
+          <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+            {district.neighborhoods.map(n => (
+              <NeighborhoodCard neighborhood={n} />
+            ))}
+          </div>
+        </div>
+      ))}
+
+      <div class="text-center mt-12">
+        <PhoneCTA size="lg" />
+      </div>
+    </div>
+  </section>
+</Base>

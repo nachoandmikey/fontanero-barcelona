@@ -1,0 +1,6 @@
+# Fontanero Barcelona
+User-agent: *
+Allow: /
+
+Sitemap: https://fontanero.barcelona/sitemap.xml
+Sitemap: https://plumber.barcelona/sitemap.xml

@@ -1,0 +1,38 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { PHONE, PHONE_URL } from '../lib/constants';
+
+interface Props {
+  size?: 'sm' | 'md' | 'lg';
+  variant?: 'primary' | 'outline';
+  fullWidth?: boolean;
+}
+
+const { size = 'md', variant = 'primary', fullWidth = false } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const sizeClasses = {
+  sm: 'px-4 py-2 text-sm',
+  md: 'px-6 py-3 text-base',
+  lg: 'px-8 py-4 text-lg',
+};
+
+const variantClasses = {
+  primary: 'bg-primary-600 hover:bg-primary-700 text-white',
+  outline: 'border-2 border-primary-600 text-primary-600 hover:bg-primary-50',
+};
+---
+
+<a 
+  href={PHONE_URL}
+  class:list={[
+    'inline-flex items-center justify-center space-x-2 rounded-lg font-bold transition-all animate-shake',
+    sizeClasses[size],
+    variantClasses[variant],
+    fullWidth && 'w-full',
+  ]}
+>
+  <span>📞</span>
+  <span>{t('cta.call')}: {PHONE.display}</span>
+</a>

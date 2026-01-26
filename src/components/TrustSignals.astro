@@ -1,0 +1,27 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const signals = [
+  { icon: '⚡', title: t('trust.fast'), desc: t('trust.fastDesc') },
+  { icon: '🕐', title: t('trust.available'), desc: t('trust.availableDesc') },
+  { icon: '👷', title: t('trust.professional'), desc: t('trust.professionalDesc') },
+  { icon: '✅', title: t('trust.guarantee'), desc: t('trust.guaranteeDesc') },
+];
+---
+
+<section class="py-12 bg-gray-50">
+  <div class="max-w-6xl mx-auto px-4">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+      {signals.map(signal => (
+        <div class="text-center">
+          <div class="text-4xl mb-3">{signal.icon}</div>
+          <h3 class="font-bold text-gray-800 mb-1">{signal.title}</h3>
+          <p class="text-sm text-gray-600">{signal.desc}</p>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>

@@ -1,0 +1,241 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { allNeighborhoods, districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+export function getStaticPaths() {
+  return allNeighborhoods.map(n => ({
+    params: { barrio: n.id },
+    props: { neighborhood: n }
+  }));
+}
+
+const { neighborhood } = Astro.props;
+const t = useTranslations('es');
+
+// SEO-optimized title: "Fontanero en [Barrio] | Barcelona 24h"
+const title = `Fontanero en ${neighborhood.nameEs} | Barcelona 24h`;
+const description = `Fontanero urgente en ${neighborhood.nameEs}, Barcelona. Servicio 24 horas para fugas de agua, desatascos y averías. Llegamos en menos de 1 hora. ☎ ${PHONE.display}`;
+
+// Get district for context
+const district = districts.find(d => d.id === neighborhood.districtId);
+
+// Get related neighborhoods (same district, excluding current)
+const sameDistrictNeighborhoods = district?.neighborhoods.filter(n => n.id !== neighborhood.id) || [];
+
+// Get nearby districts' neighborhoods for broader internal linking
+const districtIndex = districts.findIndex(d => d.id === neighborhood.districtId);
+const nearbyDistricts = [
+  districts[districtIndex - 1],
+  districts[districtIndex + 1]
+].filter(Boolean);
+const nearbyNeighborhoods = nearbyDistricts.flatMap(d => d.neighborhoods.slice(0, 2));
+
+// Schema with specific areaServed
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": `Fontanero en ${neighborhood.nameEs}`,
+  "description": description,
+  "url": `${SITES.es}/zonas/${neighborhood.id}/`,
+  "telephone": PHONE.international,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Barcelona",
+    "addressRegion": "Cataluña",
+    "addressCountry": "ES"
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": neighborhood.nameEs,
+    "containedInPlace": {
+      "@type": "City",
+      "name": "Barcelona"
+    }
+  },
+  "openingHoursSpecification": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  },
+  "priceRange": "€€"
+};
+
+// Services with neighborhood-specific links
+const services = [
+  { 
+    icon: '💧', 
+    title: `Fugas de agua en ${neighborhood.nameEs}`,
+    desc: 'Detección y reparación de fugas en tuberías, grifos y cisternas.',
+    href: '/es/servicios/fugas-agua'
+  },
+  { 
+    icon: '🚿', 
+    title: `Desatascos en ${neighborhood.nameEs}`,
+    desc: 'Desatascamos tuberías, desagües, fregaderos y WC.',
+    href: '/es/servicios/desatascos'
+  },
+  { 
+    icon: '🚨', 
+    title: `Urgencias 24h en ${neighborhood.nameEs}`,
+    desc: 'Servicio de emergencias las 24 horas del día.',
+    href: '/es/servicios/urgencias'
+  },
+];
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        🔧 Fontanero en {neighborhood.nameEs}
+      </h1>
+      <p class="text-xl text-primary-100 mb-2">
+        Cobertura completa en {neighborhood.district}
+      </p>
+      <p class="text-lg text-primary-200 mb-8 max-w-2xl mx-auto">
+        ¿Necesitas un fontanero en {neighborhood.nameEs}? Ofrecemos servicio de fontanería urgente 
+        en todo el barrio de {neighborhood.nameEs} y alrededores. Llegamos en menos de 1 hora.
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Services in this neighborhood -->
+  <section class="py-16" aria-labelledby="services-heading">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 id="services-heading" class="text-3xl font-bold text-gray-800 mb-8 text-center">
+        Servicios de fontanería en {neighborhood.nameEs}
+      </h2>
+      <div class="grid md:grid-cols-3 gap-6">
+        {services.map(service => (
+          <a 
+            href={service.href}
+            class="block bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 group"
+          >
+            <div class="text-4xl mb-4" aria-hidden="true">{service.icon}</div>
+            <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-primary-600 transition-colors">
+              {service.title}
+            </h3>
+            <p class="text-gray-600 text-sm leading-relaxed">
+              {service.desc}
+            </p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Response time & info -->
+  <section class="py-16 bg-gray-50" aria-labelledby="info-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="info-heading" class="sr-only">Información del servicio</h2>
+      <div class="grid md:grid-cols-2 gap-8">
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">⏱️ Tiempo de respuesta</h3>
+          <p class="text-3xl font-bold text-primary-600">Menos de 1 hora</p>
+          <p class="text-gray-600 mt-2">En {neighborhood.nameEs} y todo {neighborhood.district}</p>
+        </div>
+        <div class="bg-white rounded-xl p-6 shadow">
+          <h3 class="text-xl font-bold text-gray-800 mb-2">📍 Zona de cobertura</h3>
+          <p class="text-gray-600">{neighborhood.district}, Barcelona</p>
+          <p class="text-sm text-gray-500 mt-2">Servicio 24 horas, todos los días</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Content for SEO -->
+  <section class="py-16" aria-labelledby="about-heading">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="about-heading">Fontanero profesional en {neighborhood.nameEs}</h2>
+      <p>
+        Si buscas un <strong>fontanero en {neighborhood.nameEs}</strong>, has llegado al lugar adecuado. 
+        Somos especialistas en solucionar todo tipo de problemas de fontanería en el barrio de 
+        {neighborhood.nameEs} y toda la zona de {neighborhood.district}.
+      </p>
+      <p>
+        Nuestro equipo de fontaneros profesionales está disponible <strong>24 horas al día, 
+        7 días a la semana</strong>, para atender cualquier urgencia de fontanería. Ya sea una 
+        fuga de agua, un atasco o cualquier otra avería, llegamos a tu domicilio en 
+        {neighborhood.nameEs} en menos de 1 hora.
+      </p>
+      
+      <h3>¿Por qué elegirnos en {neighborhood.nameEs}?</h3>
+      <ul>
+        <li><strong>Respuesta rápida</strong>: Llegamos en menos de 1 hora a cualquier punto de {neighborhood.nameEs}</li>
+        <li><strong>Disponibilidad 24/7</strong>: Atendemos emergencias a cualquier hora</li>
+        <li><strong>Fontaneros profesionales</strong>: Equipo titulado y con años de experiencia</li>
+        <li><strong>Precios transparentes</strong>: Presupuesto gratis sin compromiso</li>
+        <li><strong>Garantía</strong>: Todos nuestros trabajos tienen garantía</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Related neighborhoods (same district) -->
+  {sameDistrictNeighborhoods.length > 0 && (
+    <section class="py-16 bg-gray-50" aria-labelledby="related-heading">
+      <div class="max-w-4xl mx-auto px-4">
+        <h2 id="related-heading" class="text-2xl font-bold text-gray-800 mb-6">
+          Otras zonas en {neighborhood.district}
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+          {sameDistrictNeighborhoods.map(n => (
+            <a 
+              href={`/es/zonas/${n.id}/`}
+              class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow group"
+            >
+              <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+                {n.nameEs}
+              </span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- Nearby neighborhoods (adjacent districts) -->
+  {nearbyNeighborhoods.length > 0 && (
+    <section class="py-16" aria-labelledby="nearby-heading">
+      <div class="max-w-4xl mx-auto px-4">
+        <h2 id="nearby-heading" class="text-2xl font-bold text-gray-800 mb-6">
+          Zonas cercanas a {neighborhood.nameEs}
+        </h2>
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+          {nearbyNeighborhoods.map(n => (
+            <a 
+              href={`/es/zonas/${n.id}/`}
+              class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow group"
+            >
+              <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+                {n.nameEs}
+              </span>
+              <span class="text-sm text-gray-500 block">{n.district}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+    </section>
+  )}
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">
+        ¿Necesitas un fontanero en {neighborhood.nameEs}?
+      </h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Llámanos ahora y llegamos en menos de 1 hora
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

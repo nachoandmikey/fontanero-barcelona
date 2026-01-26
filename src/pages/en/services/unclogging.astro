@@ -1,0 +1,128 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+const title = "Drain Unclogging in Barcelona | Emergency Plumber 24h";
+const description = `Professional drain unclogging service in Barcelona. We unclog pipes, drains, sinks and toilets with professional equipment. Available 24/7. ☎ ${PHONE.display}`;
+
+// Get featured neighborhoods for internal linking
+const featuredNeighborhoods = [
+  districts[0].neighborhoods[0], // El Raval
+  districts[1].neighborhoods[0], // Dreta Eixample
+  districts[5].neighborhoods[0], // Vila de Gràcia
+  districts[9].neighborhoods[4], // Poblenou
+];
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Drain Unclogging Service",
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Plumber Barcelona",
+    "telephone": PHONE.international,
+    "url": SITES.en
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "serviceType": "Plumbing - Drain Unclogging"
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🚿 Drain Unclogging Service</h1>
+      <p class="text-xl text-primary-100 mb-8">
+        We unclog pipes, drains, sinks and toilets with professional equipment
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Content -->
+  <section class="py-16" aria-labelledby="main-content">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="main-content">Professional drain unclogging service in Barcelona</h2>
+      <p>
+        Clogs are one of the most common and annoying plumbing problems. 
+        Our team of <strong>professional plumbers in Barcelona</strong> has 
+        professional tools such as unclogging machines and inspection cameras 
+        to resolve any obstruction effectively.
+      </p>
+
+      <h3>Types of unclogging we perform:</h3>
+      <ul>
+        <li>Sink and basin unclogging</li>
+        <li>Toilet unclogging</li>
+        <li>Bathtub and shower unclogging</li>
+        <li>General pipe unclogging</li>
+        <li>Drain pipe unclogging</li>
+        <li>Drain and siphon cleaning</li>
+      </ul>
+
+      <h3>Professional equipment:</h3>
+      <ul>
+        <li><strong>Unclogging machines</strong> - To remove the most difficult obstructions</li>
+        <li><strong>Inspection cameras</strong> - To precisely locate the source of the problem</li>
+        <li><strong>High-pressure equipment</strong> - For deep and effective cleaning</li>
+        <li><strong>Professional products</strong> - Safe for pipes and the environment</li>
+      </ul>
+
+      <h3>Signs you need unclogging:</h3>
+      <ul>
+        <li>⚠️ Water drains slowly</li>
+        <li>⚠️ Bad odors in bathrooms or kitchen</li>
+        <li>⚠️ Strange noises in the pipes</li>
+        <li>⚠️ Water backing up through other drains</li>
+        <li>⚠️ Toilet doesn't flush properly</li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- Neighborhoods -->
+  <section class="py-16 bg-gray-50" aria-labelledby="areas-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="areas-heading" class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Drain unclogging in all Barcelona neighborhoods
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
+        {featuredNeighborhoods.map(n => (
+          <a 
+            href={`/en/areas/${n.id}/`}
+            class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow text-center group"
+          >
+            <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
+              {n.nameEn}
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/en/areas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+          View all areas →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">Have a clogged drain?</h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Call us now and we'll fix it in less than 1 hour
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

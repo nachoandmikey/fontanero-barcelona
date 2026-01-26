@@ -1,0 +1,133 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
+
+const title = "Fontanero Urgente 24 Horas Barcelona | Emergencias";
+const description = `Servicio de fontanería urgente en Barcelona disponible 24 horas, 7 días a la semana. Llegamos en menos de 1 hora a cualquier barrio. ☎ ${PHONE.display}`;
+
+// Get all districts for comprehensive coverage listing
+const allDistrictNames = districts.map(d => d.nameEs);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": "Fontanero Urgente 24 Horas",
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Fontanero Barcelona",
+    "telephone": PHONE.international,
+    "url": SITES.es
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "serviceType": "Emergency Plumbing",
+  "hoursAvailable": {
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
+    "opens": "00:00",
+    "closes": "23:59"
+  }
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero -->
+  <section class="bg-gradient-to-br from-red-600 to-red-800 text-white py-16">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">🚨 Fontanero Urgente 24h</h1>
+      <p class="text-xl text-red-100 mb-8">
+        Emergencias de fontanería en Barcelona - Llegamos en menos de 1 hora
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <TrustSignals />
+
+  <!-- Content -->
+  <section class="py-16" aria-labelledby="main-content">
+    <div class="max-w-4xl mx-auto px-4 prose prose-lg">
+      <h2 id="main-content">Servicio de emergencias de fontanería 24 horas</h2>
+      <p>
+        Las emergencias de fontanería no avisan. Por eso nuestros <strong>fontaneros urgentes en 
+        Barcelona</strong> están disponibles las 24 horas del día, los 7 días de la semana, incluidos 
+        festivos. Cuando nos llamas, un fontanero profesional se desplaza a tu domicilio en menos de 1 hora.
+      </p>
+
+      <h3>Emergencias que atendemos:</h3>
+      <ul>
+        <li>🚨 Roturas de tuberías e inundaciones</li>
+        <li>🚨 Fugas de agua graves</li>
+        <li>🚨 Atascos que impiden usar el baño</li>
+        <li>🚨 Averías en calentadores o calderas</li>
+        <li>🚨 Cortes de agua en vivienda</li>
+        <li>🚨 Problemas con llaves de paso</li>
+        <li>🚨 Desbordamientos y humedades</li>
+      </ul>
+
+      <h3>Nuestra garantía de respuesta:</h3>
+      <div class="bg-red-50 border-l-4 border-red-500 p-4 not-prose my-6">
+        <p class="font-bold text-red-800 text-lg">⏱️ Llegamos en menos de 1 hora</p>
+        <p class="text-red-700">Desde que recibes tu llamada, un fontanero sale hacia tu domicilio inmediatamente. Sin esperas, sin excusas.</p>
+      </div>
+
+      <h3>¿Qué hacer mientras llega el fontanero?</h3>
+      <ol>
+        <li><strong>Cierra la llave de paso</strong> - Evita más daños por agua cortando el suministro</li>
+        <li><strong>Desconecta la electricidad</strong> - Si hay riesgo de contacto del agua con instalaciones eléctricas</li>
+        <li><strong>Recoge el agua</strong> - Usa toallas, cubos o fregonas para minimizar daños</li>
+        <li><strong>Documenta los daños</strong> - Haz fotos para tu compañía de seguros</li>
+        <li><strong>Llámanos inmediatamente</strong> - Cuanto antes actuemos, menos daños habrá</li>
+      </ol>
+
+      <h3>Cobertura en toda Barcelona</h3>
+      <p>
+        Atendemos emergencias en <strong>todos los distritos de Barcelona</strong>: 
+        {allDistrictNames.join(', ')}.
+      </p>
+    </div>
+  </section>
+
+  <!-- Districts coverage -->
+  <section class="py-16 bg-gray-50" aria-labelledby="coverage-heading">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 id="coverage-heading" class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Urgencias 24h en todos los barrios de Barcelona
+      </h2>
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-4 mb-6">
+        {districts.map(d => (
+          <a 
+            href={`/es/zonas/${d.neighborhoods[0].id}/`}
+            class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow text-center group"
+          >
+            <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors text-sm">
+              {d.nameEs}
+            </span>
+          </a>
+        ))}
+      </div>
+      <div class="text-center">
+        <a href="/es/zonas/" class="text-primary-600 hover:text-primary-700 font-semibold">
+          Ver todos los barrios →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-red-600 text-white" aria-labelledby="cta-heading">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 id="cta-heading" class="text-3xl font-bold mb-4">¿Tienes una emergencia de fontanería?</h2>
+      <p class="text-xl text-red-100 mb-8">
+        Llámanos ahora - Estamos disponibles 24 horas, 7 días a la semana
+      </p>
+      <PhoneCTA size="lg" variant="outline" />
+    </div>
+  </section>
+</Base>

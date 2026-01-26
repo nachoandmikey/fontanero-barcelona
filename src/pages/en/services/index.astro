@@ -1,0 +1,32 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import ServiceCard from '../../../components/ServiceCard.astro';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+
+const t = useTranslations('en');
+---
+
+<Base 
+  title="Plumbing Services in Barcelona | Plumber Barcelona"
+  description="Professional plumbing services in Barcelona: water leaks, drain unclogging, 24h emergencies. Free quote."
+>
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h1 class="text-4xl md:text-5xl font-bold text-gray-800 mb-4">{t('services.title')}</h1>
+        <p class="text-gray-600 text-lg max-w-2xl mx-auto">{t('services.subtitle')}</p>
+      </div>
+      
+      <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <ServiceCard serviceId="waterLeaks" icon="💧" />
+        <ServiceCard serviceId="unclogging" icon="🚿" />
+        <ServiceCard serviceId="emergency" icon="🚨" />
+      </div>
+
+      <div class="text-center">
+        <PhoneCTA size="lg" />
+      </div>
+    </div>
+  </section>
+</Base>

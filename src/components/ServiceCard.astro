@@ -1,0 +1,32 @@
+---
+import { getLangFromUrl, useTranslations, getLocalizedPath } from '../i18n/utils';
+
+interface Props {
+  serviceId: 'waterLeaks' | 'unclogging' | 'emergency';
+  icon: string;
+}
+
+const { serviceId, icon } = Astro.props;
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const title = t(`services.${serviceId}.title`);
+const description = t(`services.${serviceId}.description`);
+const slug = t(`services.${serviceId}.slug`);
+
+const basePath = lang === 'es' ? '/servicios' : '/services';
+const href = getLocalizedPath(`${basePath}/${slug}`, lang);
+---
+
+<a 
+  href={href}
+  class="block bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 group"
+>
+  <div class="text-4xl mb-4">{icon}</div>
+  <h3 class="text-xl font-bold text-gray-800 mb-2 group-hover:text-primary-600 transition-colors">
+    {title}
+  </h3>
+  <p class="text-gray-600 text-sm leading-relaxed">
+    {description}
+  </p>
+</a>
