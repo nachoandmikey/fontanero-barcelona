@@ -49,7 +49,7 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
   // Normalize: remove language prefix (/es/ or /en/) and trailing slash
   let pathWithoutLang = currentPath.replace(/^\/(es|en)/, '').replace(/\/$/, '') || '/';
   
-  // Map ES paths to EN paths
+  // Map ES paths to EN paths (exact matches)
   const pathMappings: Record<string, string> = {
     '': '',
     '/servicios': '/services',
@@ -59,30 +59,59 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
     '/zonas': '/areas',
     '/contacto': '/contact',
   };
+
+  // Map ES service slugs to EN service slugs (for programmatic pages)
+  const serviceMappings: Record<string, string> = {
+    'urgencias': 'emergency',
+    'fugas-agua': 'water-leaks',
+    'desatascos': 'unclogging',
+    'instalacion-grifos': 'faucet-installation',
+    'calentadores': 'water-heaters',
+    'cisternas': 'toilet-cisterns',
+    'tuberias': 'pipe-repair',
+    'instalaciones': 'installations',
+  };
   
-  // Reverse mappings for EN to ES
+  // Reverse mappings
   const reverseMappings = Object.fromEntries(
     Object.entries(pathMappings).map(([es, en]) => [en, es])
+  );
+  const reverseServiceMappings = Object.fromEntries(
+    Object.entries(serviceMappings).map(([es, en]) => [en, es])
   );
   
   let esPath = pathWithoutLang;
   let enPath = pathWithoutLang;
   
   if (currentLang === 'es') {
-    // Check exact match first, then try zone/area replacement
+    // Check exact match first
     if (pathMappings[pathWithoutLang] !== undefined) {
       enPath = pathMappings[pathWithoutLang];
     } else if (pathWithoutLang.startsWith('/zonas/')) {
       // Map neighborhood: /zonas/eixample -> /areas/eixample
       enPath = pathWithoutLang.replace('/zonas/', '/areas/');
+    } else {
+      // Check for service/neighborhood pattern: /urgencias/poblenou -> /emergency/poblenou
+      const parts = pathWithoutLang.split('/').filter(Boolean);
+      if (parts.length >= 1 && serviceMappings[parts[0]]) {
+        parts[0] = serviceMappings[parts[0]];
+        enPath = '/' + parts.join('/');
+      }
     }
   } else {
-    // Check exact match first, then try area/zone replacement
+    // Check exact match first
     if (reverseMappings[pathWithoutLang] !== undefined) {
       esPath = reverseMappings[pathWithoutLang];
     } else if (pathWithoutLang.startsWith('/areas/')) {
       // Map neighborhood: /areas/eixample -> /zonas/eixample
       esPath = pathWithoutLang.replace('/areas/', '/zonas/');
+    } else {
+      // Check for service/neighborhood pattern: /emergency/poblenou -> /urgencias/poblenou
+      const parts = pathWithoutLang.split('/').filter(Boolean);
+      if (parts.length >= 1 && reverseServiceMappings[parts[0]]) {
+        parts[0] = reverseServiceMappings[parts[0]];
+        esPath = '/' + parts.join('/');
+      }
     }
   }
   
