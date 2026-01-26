@@ -4,9 +4,21 @@ import { fileURLToPath } from 'url';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
-// Service slugs
-const spanishServices = ['urgencias', 'fugas-agua', 'desatascos', 'instalacion-grifos', 'calentadores', 'cisternas', 'tuberias', 'instalaciones'];
-const englishServices = ['emergency', 'water-leaks', 'unclogging', 'faucet-installation', 'water-heaters', 'toilet-cisterns', 'pipe-repair', 'installations'];
+// Service slugs (must match src/data/services.ts)
+const spanishServices = [
+  'urgencias', 'fugas-agua', 'desatascos', 'tuberias', 'grifos', 'duchas', 
+  'baneras', 'inodoros', 'cisternas', 'lavabos', 'calentadores', 'termos', 
+  'calderas', 'osmosis', 'descalcificadores', 'lavadoras', 'lavavajillas',
+  'aire-acondicionado', 'radiadores', 'suelo-radiante', 'gas', 'riego', 
+  'piscinas', 'reformas-bano', 'reformas-cocina'
+];
+const englishServices = [
+  'emergency', 'water-leaks', 'unclogging', 'pipes', 'faucets', 'showers',
+  'bathtubs', 'toilets', 'cisterns', 'sinks', 'water-heaters', 'electric-heaters',
+  'boilers', 'osmosis', 'water-softeners', 'washing-machines', 'dishwashers',
+  'air-conditioning', 'radiators', 'underfloor-heating', 'gas', 'irrigation',
+  'pools', 'bathroom-renovation', 'kitchen-renovation'
+];
 
 // Spanish base paths
 const spanishPaths = ['servicios', 'zonas', 'contacto', ...spanishServices];
