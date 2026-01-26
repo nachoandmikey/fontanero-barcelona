@@ -1,10 +1,10 @@
 ---
-import Base from '../../layouts/Base.astro';
-import { useTranslations } from '../../i18n/utils';
-import PhoneCTA from '../../components/PhoneCTA.astro';
-import TrustSignals from '../../components/TrustSignals.astro';
-import { allNeighborhoods, districts } from '../../data/neighborhoods';
-import { PHONE, SITES } from '../../lib/constants';
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { allNeighborhoods, districts } from '../../../data/neighborhoods';
+import { PHONE, SITES } from '../../../lib/constants';
 
 export function getStaticPaths() {
   return allNeighborhoods.map(n => ({

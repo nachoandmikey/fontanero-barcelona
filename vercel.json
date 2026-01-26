@@ -3,6 +3,46 @@
   "rewrites": [
     {
       "source": "/",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/"
+    },
+    {
+      "source": "/servicios/:path*",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/servicios/:path*"
+    },
+    {
+      "source": "/servicios/:path*",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/servicios/:path*"
+    },
+    {
+      "source": "/zonas/:path*",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/zonas/:path*"
+    },
+    {
+      "source": "/zonas/:path*",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/zonas/:path*"
+    },
+    {
+      "source": "/contacto",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/contacto"
+    },
+    {
+      "source": "/contacto",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/contacto"
+    },
+    {
+      "source": "/",
       "has": [{ "type": "host", "value": "plumber.barcelona" }],
       "destination": "/en/"
     },

@@ -1,0 +1,127 @@
+---
+import Base from '../../layouts/Base.astro';
+import { useTranslations } from '../../i18n/utils';
+import { PHONE, PHONE_URL, SITES } from '../../lib/constants';
+import ServiceCard from '../../components/ServiceCard.astro';
+import TrustSignals from '../../components/TrustSignals.astro';
+import NeighborhoodCard from '../../components/NeighborhoodCard.astro';
+import PhoneCTA from '../../components/PhoneCTA.astro';
+import { districts } from '../../data/neighborhoods';
+
+const t = useTranslations('es');
+
+// Featured neighborhoods (one from each major district)
+const featuredNeighborhoods = [
+  districts.find(d => d.id === 'eixample')?.neighborhoods[0],
+  districts.find(d => d.id === 'gracia')?.neighborhoods[0],
+  districts.find(d => d.id === 'ciutat-vella')?.neighborhoods[0],
+  districts.find(d => d.id === 'sant-marti')?.neighborhoods[4], // Poblenou
+  districts.find(d => d.id === 'sants-montjuic')?.neighborhoods[0],
+  districts.find(d => d.id === 'sarria-sant-gervasi')?.neighborhoods[0],
+].filter(Boolean);
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "Fontanero Barcelona",
+  "description": "Fontaneros urgentes en Barcelona 24 horas. Reparamos fugas de agua, desatascos y averías. Llegamos en menos de 1 hora.",
+  "url": SITES.es,
+  "telephone": PHONE.international,
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Barcelona",
+    "addressRegion": "Cataluña",
+    "addressCountry": "ES"
+  },
+  "areaServed": {
+    "@type": "City",
+    "name": "Barcelona"
+  },
+  "openingHours": "Mo-Su 00:00-23:59",
+  "priceRange": "€€"
+};
+---
+
+<Base title="Fontanero Barcelona | Urgencias 24h" schema={schema}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16 md:py-24">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
+        {t('hero.title')}
+      </h1>
+      <p class="text-xl md:text-2xl text-primary-100 mb-6">
+        {t('hero.subtitle')}
+      </p>
+      <p class="text-lg text-primary-200 mb-8 max-w-2xl mx-auto">
+        {t('hero.description')}
+      </p>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
+        <PhoneCTA size="lg" />
+        <a 
+          href="/servicios" 
+          class="px-8 py-4 border-2 border-white text-white rounded-lg font-bold hover:bg-white hover:text-primary-600 transition-colors"
+        >
+          {t('services.title')} →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <TrustSignals />
+
+  <!-- Services Section -->
+  <section class="py-16">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{t('services.title')}</h2>
+        <p class="text-gray-600 text-lg">{t('services.subtitle')}</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-6">
+        <ServiceCard serviceId="waterLeaks" icon="💧" />
+        <ServiceCard serviceId="unclogging" icon="🚿" />
+        <ServiceCard serviceId="emergency" icon="🚨" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Neighborhoods Section -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-gray-800 mb-4">{t('areas.title')}</h2>
+        <p class="text-gray-600 text-lg">{t('areas.subtitle')}</p>
+      </div>
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-4 mb-8">
+        {featuredNeighborhoods.map(n => n && (
+          <NeighborhoodCard neighborhood={n} />
+        ))}
+      </div>
+      <div class="text-center">
+        <a 
+          href="/zonas" 
+          class="inline-flex items-center text-primary-600 hover:text-primary-700 font-semibold"
+        >
+          {t('areas.allAreas')} →
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Final CTA -->
+  <section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl md:text-4xl font-bold mb-4">¿Necesitas un fontanero urgente?</h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Estamos disponibles 24 horas, 7 días a la semana. Llegamos en menos de 1 hora.
+      </p>
+      <a 
+        href={PHONE_URL}
+        class="inline-flex items-center space-x-3 bg-white text-primary-600 px-8 py-4 rounded-lg font-bold text-xl hover:bg-primary-50 transition-colors"
+      >
+        <span>📞</span>
+        <span>{t('cta.callUs')}: {PHONE.display}</span>
+      </a>
+    </div>
+  </section>
+</Base>
