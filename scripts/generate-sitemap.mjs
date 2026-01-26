@@ -10,8 +10,9 @@ const outputPathIndex = path.join(__dirname, '../dist/sitemap.xml');
 const esSite = 'https://fontanero.barcelona';
 const enSite = 'https://plumber.barcelona';
 
-// Import neighborhood data
+// Import neighborhood and service data
 const { districts } = await import('../src/data/neighborhoods.ts');
+const { services } = await import('../src/data/services.ts');
 
 const allNeighborhoods = districts.flatMap(d => d.neighborhoods);
 
@@ -31,6 +32,13 @@ allNeighborhoods.forEach(n => {
   esUrls.push({ loc: `/zonas/${n.id}`, priority: '0.7' });
 });
 
+// Add service × neighborhood pages (programmatic SEO)
+services.forEach(s => {
+  allNeighborhoods.forEach(n => {
+    esUrls.push({ loc: `/${s.slugEs}/${n.id}`, priority: '0.6' });
+  });
+});
+
 // English URLs
 const enUrls = [
   { loc: '/', priority: '1.0' },
@@ -45,6 +53,13 @@ const enUrls = [
 // Add all neighborhood pages
 allNeighborhoods.forEach(n => {
   enUrls.push({ loc: `/areas/${n.id}`, priority: '0.7' });
+});
+
+// Add service × neighborhood pages (programmatic SEO)
+services.forEach(s => {
+  allNeighborhoods.forEach(n => {
+    enUrls.push({ loc: `/${s.slugEn}/${n.id}`, priority: '0.6' });
+  });
 });
 
 function generateSitemap(urls, baseUrl, langPrefix) {

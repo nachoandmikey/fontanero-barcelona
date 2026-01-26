@@ -1,0 +1,179 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import { PHONE, PHONE_URL } from '../../../lib/constants';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts, type Neighborhood } from '../../../data/neighborhoods';
+import { services, getServiceBySlug, type Service } from '../../../data/services';
+
+export function getStaticPaths() {
+  const paths: { params: { service: string; neighborhood: string }; props: { service: Service; neighborhood: Neighborhood } }[] = [];
+  
+  const allNeighborhoods = districts.flatMap(d => d.neighborhoods);
+  
+  for (const service of services) {
+    for (const neighborhood of allNeighborhoods) {
+      paths.push({
+        params: { 
+          service: service.slugEn, 
+          neighborhood: neighborhood.id 
+        },
+        props: { service, neighborhood }
+      });
+    }
+  }
+  
+  return paths;
+}
+
+const { service, neighborhood } = Astro.props;
+const t = useTranslations('en');
+
+// Nearby neighborhoods from same district
+const district = districts.find(d => d.id === neighborhood.districtId);
+const nearbyNeighborhoods = district?.neighborhoods.filter(n => n.id !== neighborhood.id).slice(0, 4) || [];
+
+// Other services
+const otherServices = services.filter(s => s.id !== service.id).slice(0, 3);
+
+const title = `${service.nameEn} in ${neighborhood.nameEn} | Plumber Barcelona`;
+const description = `${service.shortDescEn} in ${neighborhood.nameEn}, Barcelona. We arrive in less than 1 hour. Call ${PHONE.display}. 24-hour service.`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": `${service.nameEn} in ${neighborhood.nameEn}`,
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Plumber Barcelona",
+    "telephone": PHONE.international,
+    "areaServed": {
+      "@type": "Place",
+      "name": `${neighborhood.nameEn}, Barcelona`
+    }
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": `${neighborhood.nameEn}, Barcelona`
+  }
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="text-5xl mb-4">{service.icon}</div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        {service.nameEn} in {neighborhood.nameEn}
+      </h1>
+      <p class="text-xl text-primary-100 mb-2">
+        {district?.nameEn || neighborhood.district}, Barcelona
+      </p>
+      <p class="text-lg text-primary-200 mb-8 max-w-2xl mx-auto">
+        {service.shortDescEn}. Professional service in {neighborhood.nameEn} with arrival in less than 1 hour.
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <TrustSignals />
+
+  <!-- Main Content -->
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        Need a plumber for {service.nameEn.toLowerCase()} in {neighborhood.nameEn}?
+      </h2>
+      
+      <div class="prose prose-lg max-w-none text-gray-600">
+        <p>
+          If you live in <strong>{neighborhood.nameEn}</strong> and have a plumbing emergency, 
+          we're here to help. Our <strong>{service.nameEn.toLowerCase()}</strong> service 
+          covers the entire {district?.nameEn || neighborhood.district} area, including {neighborhood.nameEn} and surroundings.
+        </p>
+        
+        <h3>Why choose us for {service.nameEn.toLowerCase()} in {neighborhood.nameEn}?</h3>
+        <ul>
+          <li><strong>Fast response:</strong> We arrive in {neighborhood.nameEn} in less than 1 hour</li>
+          <li><strong>Availability:</strong> 24-hour service, 7 days a week</li>
+          <li><strong>Professionalism:</strong> Licensed plumbers with experience</li>
+          <li><strong>Guarantee:</strong> All work comes with warranty</li>
+          <li><strong>Free quote:</strong> We inform you before starting</li>
+        </ul>
+
+        <h3>{service.nameEn} services we offer</h3>
+        <p>
+          In {neighborhood.nameEn} we perform all types of work related to {service.nameEn.toLowerCase()}:
+        </p>
+        <ul>
+          {service.keywords.en.map(keyword => (
+            <li>{keyword.charAt(0).toUpperCase() + keyword.slice(1)}</li>
+          ))}
+        </ul>
+
+        <h3>Coverage area in {district?.nameEn || neighborhood.district}</h3>
+        <p>
+          In addition to {neighborhood.nameEn}, we cover all neighborhoods in {district?.nameEn || neighborhood.district}:
+        </p>
+      </div>
+
+      <!-- Nearby Areas -->
+      {nearbyNeighborhoods.length > 0 && (
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 mb-8">
+          {nearbyNeighborhoods.map(n => (
+            <a 
+              href={`/${service.slugEn}/${n.id}/`}
+              class="bg-gray-50 rounded-lg p-3 text-center hover:bg-primary-50 transition-colors"
+            >
+              <span class="text-sm text-gray-700">{n.nameEn}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Other Services -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Other services in {neighborhood.nameEn}
+      </h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        {otherServices.map(s => (
+          <a 
+            href={`/${s.slugEn}/${neighborhood.id}/`}
+            class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 text-center"
+          >
+            <div class="text-4xl mb-3">{s.icon}</div>
+            <h3 class="font-bold text-gray-800">{s.nameEn}</h3>
+            <p class="text-sm text-gray-600 mt-2">{s.shortDescEn}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">
+        Need {service.nameEn.toLowerCase()} in {neighborhood.nameEn}?
+      </h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Call us now and a plumber will be at your place in less than 1 hour.
+      </p>
+      <a 
+        href={PHONE_URL}
+        class="inline-flex items-center space-x-3 bg-white text-primary-600 px-8 py-4 rounded-lg font-bold text-xl hover:bg-primary-50 transition-colors"
+      >
+        <span>📞</span>
+        <span>Call: {PHONE.display}</span>
+      </a>
+    </div>
+  </section>
+</Base>

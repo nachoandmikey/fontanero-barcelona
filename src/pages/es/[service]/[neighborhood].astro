@@ -1,0 +1,179 @@
+---
+import Base from '../../../layouts/Base.astro';
+import { useTranslations } from '../../../i18n/utils';
+import { PHONE, PHONE_URL } from '../../../lib/constants';
+import PhoneCTA from '../../../components/PhoneCTA.astro';
+import TrustSignals from '../../../components/TrustSignals.astro';
+import { districts, type Neighborhood } from '../../../data/neighborhoods';
+import { services, getServiceBySlug, type Service } from '../../../data/services';
+
+export function getStaticPaths() {
+  const paths: { params: { service: string; neighborhood: string }; props: { service: Service; neighborhood: Neighborhood } }[] = [];
+  
+  const allNeighborhoods = districts.flatMap(d => d.neighborhoods);
+  
+  for (const service of services) {
+    for (const neighborhood of allNeighborhoods) {
+      paths.push({
+        params: { 
+          service: service.slugEs, 
+          neighborhood: neighborhood.id 
+        },
+        props: { service, neighborhood }
+      });
+    }
+  }
+  
+  return paths;
+}
+
+const { service, neighborhood } = Astro.props;
+const t = useTranslations('es');
+
+// Nearby neighborhoods from same district
+const district = districts.find(d => d.id === neighborhood.districtId);
+const nearbyNeighborhoods = district?.neighborhoods.filter(n => n.id !== neighborhood.id).slice(0, 4) || [];
+
+// Other services
+const otherServices = services.filter(s => s.id !== service.id).slice(0, 3);
+
+const title = `${service.nameEs} en ${neighborhood.nameEs} | Fontanero Barcelona`;
+const description = `${service.shortDescEs} en ${neighborhood.nameEs}, Barcelona. Llegamos en menos de 1 hora. Llama al ${PHONE.display}. Servicio 24 horas.`;
+
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "name": `${service.nameEs} en ${neighborhood.nameEs}`,
+  "description": description,
+  "provider": {
+    "@type": "LocalBusiness",
+    "name": "Fontanero Barcelona",
+    "telephone": PHONE.international,
+    "areaServed": {
+      "@type": "Place",
+      "name": `${neighborhood.nameEs}, Barcelona`
+    }
+  },
+  "areaServed": {
+    "@type": "Place",
+    "name": `${neighborhood.nameEs}, Barcelona`
+  }
+};
+---
+
+<Base title={title} description={description} schema={schema}>
+  <!-- Hero Section -->
+  <section class="bg-gradient-to-br from-primary-600 to-primary-800 text-white py-16">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+      <div class="text-5xl mb-4">{service.icon}</div>
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        {service.nameEs} en {neighborhood.nameEs}
+      </h1>
+      <p class="text-xl text-primary-100 mb-2">
+        {neighborhood.district}, Barcelona
+      </p>
+      <p class="text-lg text-primary-200 mb-8 max-w-2xl mx-auto">
+        {service.shortDescEs}. Servicio profesional en {neighborhood.nameEs} con llegada en menos de 1 hora.
+      </p>
+      <PhoneCTA size="lg" />
+    </div>
+  </section>
+
+  <!-- Trust Signals -->
+  <TrustSignals />
+
+  <!-- Main Content -->
+  <section class="py-16">
+    <div class="max-w-4xl mx-auto px-4">
+      <h2 class="text-3xl font-bold text-gray-800 mb-6">
+        ¿Necesitas un fontanero para {service.nameEs.toLowerCase()} en {neighborhood.nameEs}?
+      </h2>
+      
+      <div class="prose prose-lg max-w-none text-gray-600">
+        <p>
+          Si vives en <strong>{neighborhood.nameEs}</strong> y tienes una emergencia de fontanería, 
+          estamos aquí para ayudarte. Nuestro servicio de <strong>{service.nameEs.toLowerCase()}</strong> 
+          cubre toda la zona de {neighborhood.district}, incluyendo {neighborhood.nameEs} y alrededores.
+        </p>
+        
+        <h3>¿Por qué elegirnos para {service.nameEs.toLowerCase()} en {neighborhood.nameEs}?</h3>
+        <ul>
+          <li><strong>Rapidez:</strong> Llegamos a {neighborhood.nameEs} en menos de 1 hora</li>
+          <li><strong>Disponibilidad:</strong> Servicio 24 horas, 7 días a la semana</li>
+          <li><strong>Profesionalidad:</strong> Fontaneros titulados con experiencia</li>
+          <li><strong>Garantía:</strong> Todos los trabajos con garantía</li>
+          <li><strong>Presupuesto sin compromiso:</strong> Te informamos antes de empezar</li>
+        </ul>
+
+        <h3>Servicios de {service.nameEs.toLowerCase()} que ofrecemos</h3>
+        <p>
+          En {neighborhood.nameEs} realizamos todo tipo de trabajos relacionados con {service.nameEs.toLowerCase()}:
+        </p>
+        <ul>
+          {service.keywords.es.map(keyword => (
+            <li>{keyword.charAt(0).toUpperCase() + keyword.slice(1)}</li>
+          ))}
+        </ul>
+
+        <h3>Zona de cobertura en {neighborhood.district}</h3>
+        <p>
+          Además de {neighborhood.nameEs}, cubrimos todos los barrios de {neighborhood.district}:
+        </p>
+      </div>
+
+      <!-- Nearby Areas -->
+      {nearbyNeighborhoods.length > 0 && (
+        <div class="grid grid-cols-2 md:grid-cols-4 gap-3 mt-4 mb-8">
+          {nearbyNeighborhoods.map(n => (
+            <a 
+              href={`/${service.slugEs}/${n.id}/`}
+              class="bg-gray-50 rounded-lg p-3 text-center hover:bg-primary-50 transition-colors"
+            >
+              <span class="text-sm text-gray-700">{n.nameEs}</span>
+            </a>
+          ))}
+        </div>
+      )}
+    </div>
+  </section>
+
+  <!-- Other Services -->
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-6xl mx-auto px-4">
+      <h2 class="text-2xl font-bold text-gray-800 mb-6 text-center">
+        Otros servicios en {neighborhood.nameEs}
+      </h2>
+      <div class="grid md:grid-cols-3 gap-4">
+        {otherServices.map(s => (
+          <a 
+            href={`/${s.slugEs}/${neighborhood.id}/`}
+            class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow p-6 text-center"
+          >
+            <div class="text-4xl mb-3">{s.icon}</div>
+            <h3 class="font-bold text-gray-800">{s.nameEs}</h3>
+            <p class="text-sm text-gray-600 mt-2">{s.shortDescEs}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 bg-primary-600 text-white">
+    <div class="max-w-4xl mx-auto px-4 text-center">
+      <h2 class="text-3xl font-bold mb-4">
+        ¿Necesitas {service.nameEs.toLowerCase()} en {neighborhood.nameEs}?
+      </h2>
+      <p class="text-xl text-primary-100 mb-8">
+        Llámanos ahora y un fontanero estará en tu casa en menos de 1 hora.
+      </p>
+      <a 
+        href={PHONE_URL}
+        class="inline-flex items-center space-x-3 bg-white text-primary-600 px-8 py-4 rounded-lg font-bold text-xl hover:bg-primary-50 transition-colors"
+      >
+        <span>📞</span>
+        <span>Llamar: {PHONE.display}</span>
+      </a>
+    </div>
+  </section>
+</Base>
