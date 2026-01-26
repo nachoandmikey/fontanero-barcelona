@@ -71,19 +71,19 @@ const services = [
     icon: '💧', 
     title: `Water leaks in ${neighborhood.nameEn}`,
     desc: 'Detection and repair of leaks in pipes, faucets and cisterns.',
-    href: '/en/services/water-leaks'
+    href: '/services/water-leaks'
   },
   { 
     icon: '🚿', 
     title: `Drain unclogging in ${neighborhood.nameEn}`,
     desc: 'Professional unclogging of pipes, drains, sinks and toilets.',
-    href: '/en/services/unclogging'
+    href: '/services/unclogging'
   },
   { 
     icon: '🚨', 
     title: `24h Emergency in ${neighborhood.nameEn}`,
     desc: 'Emergency service 24 hours a day, 7 days a week.',
-    href: '/en/services/emergency'
+    href: '/services/emergency'
   },
 ];
 ---
@@ -189,7 +189,7 @@ const services = [
         <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
           {sameDistrictNeighborhoods.map(n => (
             <a 
-              href={`/en/areas/${n.id}/`}
+              href={`/areas/${n.id}/`}
               class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow group"
             >
               <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
@@ -212,7 +212,7 @@ const services = [
         <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
           {nearbyNeighborhoods.map(n => (
             <a 
-              href={`/en/areas/${n.id}/`}
+              href={`/areas/${n.id}/`}
               class="bg-white rounded-lg shadow p-4 hover:shadow-md transition-shadow group"
             >
               <span class="font-medium text-gray-800 group-hover:text-primary-600 transition-colors">
