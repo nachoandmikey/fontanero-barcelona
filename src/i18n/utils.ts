@@ -39,6 +39,12 @@ export function useTranslations(lang: Lang) {
   };
 }
 
+// Domain configuration
+const DOMAINS = {
+  es: 'https://fontanero.barcelona',
+  en: 'https://plumber.barcelona',
+};
+
 export function getAlternateUrls(currentPath: string, currentLang: Lang) {
   // Normalize: remove lang prefix and trailing slash
   let pathWithoutLang = currentPath.replace(/^\/(es|en)/, '').replace(/\/$/, '') || '/';
@@ -83,9 +89,11 @@ export function getAlternateUrls(currentPath: string, currentLang: Lang) {
   // Add trailing slash for consistency
   const addSlash = (p: string) => p === '' ? '/' : (p.endsWith('/') ? p : p + '/');
   
+  // Return full URLs with correct domains
+  // Each domain handles its own language via Vercel rewrites
   return {
-    es: `/es${addSlash(esPath)}`,
-    en: `/en${addSlash(enPath)}`,
+    es: `${DOMAINS.es}${addSlash(esPath)}`,
+    en: `${DOMAINS.en}${addSlash(enPath)}`,
   };
 }
 

@@ -2,14 +2,24 @@
   "installCommand": "npm install",
   "rewrites": [
     {
-      "source": "/:path*",
+      "source": "/",
       "has": [{ "type": "host", "value": "fontanero.barcelona" }],
-      "destination": "/es/:path*"
+      "destination": "/es/index.html"
     },
     {
-      "source": "/:path*",
+      "source": "/:path((?!es/|en/|_astro/).*)",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/:path"
+    },
+    {
+      "source": "/",
       "has": [{ "type": "host", "value": "plumber.barcelona" }],
-      "destination": "/en/:path*"
+      "destination": "/en/index.html"
+    },
+    {
+      "source": "/:path((?!es/|en/|_astro/).*)",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/:path"
     }
   ],
   "headers": [

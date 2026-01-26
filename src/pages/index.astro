@@ -1,4 +1,9 @@
 ---
-// Redirect root to Spanish version
-return Astro.redirect('/es/', 302);
+// This page should never be served directly.
+// Vercel rewrites handle domain-based routing:
+// - fontanero.barcelona → /es/
+// - plumber.barcelona → /en/
+// 
+// This fallback only exists for direct /index access (shouldn't happen in prod)
+return Astro.redirect('/es/', 301);
 ---
