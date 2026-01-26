@@ -12,24 +12,84 @@
       "destination": "/es/"
     },
     {
-      "source": "/servicios/:path*",
+      "source": "/servicios",
       "has": [{ "type": "host", "value": "fontanero.barcelona" }],
-      "destination": "/es/servicios/:path*"
+      "destination": "/es/servicios"
     },
     {
-      "source": "/servicios/:path*",
-      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
-      "destination": "/es/servicios/:path*"
-    },
-    {
-      "source": "/zonas/:path*",
+      "source": "/servicios/",
       "has": [{ "type": "host", "value": "fontanero.barcelona" }],
-      "destination": "/es/zonas/:path*"
+      "destination": "/es/servicios/"
     },
     {
-      "source": "/zonas/:path*",
+      "source": "/servicios/:path",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/servicios/:path"
+    },
+    {
+      "source": "/servicios/:path/",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/servicios/:path/"
+    },
+    {
+      "source": "/servicios",
       "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
-      "destination": "/es/zonas/:path*"
+      "destination": "/es/servicios"
+    },
+    {
+      "source": "/servicios/",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/servicios/"
+    },
+    {
+      "source": "/servicios/:path",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/servicios/:path"
+    },
+    {
+      "source": "/servicios/:path/",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/servicios/:path/"
+    },
+    {
+      "source": "/zonas",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/zonas"
+    },
+    {
+      "source": "/zonas/",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/zonas/"
+    },
+    {
+      "source": "/zonas/:path",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/zonas/:path"
+    },
+    {
+      "source": "/zonas/:path/",
+      "has": [{ "type": "host", "value": "fontanero.barcelona" }],
+      "destination": "/es/zonas/:path/"
+    },
+    {
+      "source": "/zonas",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/zonas"
+    },
+    {
+      "source": "/zonas/",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/zonas/"
+    },
+    {
+      "source": "/zonas/:path",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/zonas/:path"
+    },
+    {
+      "source": "/zonas/:path/",
+      "has": [{ "type": "host", "value": "www.fontanero.barcelona" }],
+      "destination": "/es/zonas/:path/"
     },
     {
       "source": "/contacto",
@@ -52,24 +112,84 @@
       "destination": "/en/"
     },
     {
-      "source": "/services/:path*",
+      "source": "/services",
       "has": [{ "type": "host", "value": "plumber.barcelona" }],
-      "destination": "/en/services/:path*"
+      "destination": "/en/services"
     },
     {
-      "source": "/services/:path*",
-      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
-      "destination": "/en/services/:path*"
-    },
-    {
-      "source": "/areas/:path*",
+      "source": "/services/",
       "has": [{ "type": "host", "value": "plumber.barcelona" }],
-      "destination": "/en/areas/:path*"
+      "destination": "/en/services/"
     },
     {
-      "source": "/areas/:path*",
+      "source": "/services/:path",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/services/:path"
+    },
+    {
+      "source": "/services/:path/",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/services/:path/"
+    },
+    {
+      "source": "/services",
       "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
-      "destination": "/en/areas/:path*"
+      "destination": "/en/services"
+    },
+    {
+      "source": "/services/",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/services/"
+    },
+    {
+      "source": "/services/:path",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/services/:path"
+    },
+    {
+      "source": "/services/:path/",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/services/:path/"
+    },
+    {
+      "source": "/areas",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/areas"
+    },
+    {
+      "source": "/areas/",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/areas/"
+    },
+    {
+      "source": "/areas/:path",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/areas/:path"
+    },
+    {
+      "source": "/areas/:path/",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/areas/:path/"
+    },
+    {
+      "source": "/areas",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/areas"
+    },
+    {
+      "source": "/areas/",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/areas/"
+    },
+    {
+      "source": "/areas/:path",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/areas/:path"
+    },
+    {
+      "source": "/areas/:path/",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/areas/:path/"
     },
     {
       "source": "/contact",
