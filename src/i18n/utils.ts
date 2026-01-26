@@ -46,9 +46,8 @@ const DOMAINS = {
 };
 
 export function getAlternateUrls(currentPath: string, currentLang: Lang) {
-  // Normalize: remove /en/ prefix if present, and trailing slash
-  // Spanish pages are at root (no prefix), English at /en/
-  let pathWithoutLang = currentPath.replace(/^\/en/, '').replace(/\/$/, '') || '/';
+  // Normalize: remove language prefix (/es/ or /en/) and trailing slash
+  let pathWithoutLang = currentPath.replace(/^\/(es|en)/, '').replace(/\/$/, '') || '/';
   
   // Map ES paths to EN paths
   const pathMappings: Record<string, string> = {
