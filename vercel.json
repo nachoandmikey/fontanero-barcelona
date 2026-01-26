@@ -1,49 +1,47 @@
 {
   "installCommand": "npm install",
-  "rewrites": {
-    "beforeFiles": [
-      {
-        "source": "/",
-        "has": [{ "type": "host", "value": "plumber.barcelona" }],
-        "destination": "/en/index.html"
-      },
-      {
-        "source": "/",
-        "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
-        "destination": "/en/index.html"
-      },
-      {
-        "source": "/services/:path*",
-        "has": [{ "type": "host", "value": "plumber.barcelona" }],
-        "destination": "/en/services/:path*"
-      },
-      {
-        "source": "/services/:path*",
-        "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
-        "destination": "/en/services/:path*"
-      },
-      {
-        "source": "/areas/:path*",
-        "has": [{ "type": "host", "value": "plumber.barcelona" }],
-        "destination": "/en/areas/:path*"
-      },
-      {
-        "source": "/areas/:path*",
-        "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
-        "destination": "/en/areas/:path*"
-      },
-      {
-        "source": "/contact",
-        "has": [{ "type": "host", "value": "plumber.barcelona" }],
-        "destination": "/en/contact"
-      },
-      {
-        "source": "/contact",
-        "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
-        "destination": "/en/contact"
-      }
-    ]
-  },
+  "rewrites": [
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/"
+    },
+    {
+      "source": "/",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/"
+    },
+    {
+      "source": "/services/:path*",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/services/:path*"
+    },
+    {
+      "source": "/services/:path*",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/services/:path*"
+    },
+    {
+      "source": "/areas/:path*",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/areas/:path*"
+    },
+    {
+      "source": "/areas/:path*",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/areas/:path*"
+    },
+    {
+      "source": "/contact",
+      "has": [{ "type": "host", "value": "plumber.barcelona" }],
+      "destination": "/en/contact"
+    },
+    {
+      "source": "/contact",
+      "has": [{ "type": "host", "value": "www.plumber.barcelona" }],
+      "destination": "/en/contact"
+    }
+  ],
   "headers": [
     {
       "source": "/_astro/(.*)",
