@@ -164,7 +164,7 @@ const breadcrumbSchema = breadcrumbItems.length > 1 ? {
     
     <title>{title}</title>
     
-    <!-- OpenPanel Analytics -->
+    <!-- OpenPanel Analytics - deferred to not block main thread -->
     <script is:inline>
       window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
       window.op('init', {
@@ -173,8 +173,21 @@ const breadcrumbSchema = breadcrumbItems.length > 1 ? {
         trackOutgoingLinks: true,
         trackAttributes: true
       });
+      // Load OpenPanel script after page is interactive
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(function() {
+          var s = document.createElement('script');
+          s.src = 'https://openpanel.dev/op1.js';
+          document.head.appendChild(s);
+        });
+      } else {
+        setTimeout(function() {
+          var s = document.createElement('script');
+          s.src = 'https://openpanel.dev/op1.js';
+          document.head.appendChild(s);
+        }, 1);
+      }
     </script>
-    <script src="https://openpanel.dev/op1.js" defer async is:inline></script>
     
     <!-- Schema.org LocalBusiness -->
     <script type="application/ld+json" set:html={JSON.stringify(finalSchema)} />
