@@ -17,12 +17,15 @@ interface Props {
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
+// Default og-image based on language
+const defaultOgImage = lang === 'es' ? '/og-image.jpg' : '/og-image-en.jpg';
+
 const { 
   title, 
   description = lang === 'es' 
     ? "Fontaneros urgentes en Barcelona 24 horas. Reparamos fugas de agua, desatascos y averías. Llegamos en menos de 1 hora. Presupuesto gratis."
     : "Emergency plumbers in Barcelona 24 hours. We fix water leaks, unclog drains and repair plumbing issues. We arrive in less than 1 hour. Free quote.",
-  ogImage = "/og-image.jpg",
+  ogImage = defaultOgImage,
   schema,
   noIndex = false,
 } = Astro.props;
