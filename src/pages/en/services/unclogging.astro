@@ -4,6 +4,7 @@ import PhoneCTA from '../../../components/PhoneCTA.astro';
 import TrustSignals from '../../../components/TrustSignals.astro';
 import { districts } from '../../../data/neighborhoods';
 import { PHONE, SITES } from '../../../lib/constants';
+import { getServicePageSchema } from '../../../lib/schema';
 
 const title = "Drain Unclogging in Barcelona | Emergency Plumber 24h";
 const description = `Professional drain unclogging service in Barcelona. We unclog pipes, drains, sinks and toilets with professional equipment. Available 24/7. ☎ ${PHONE.display}`;
@@ -16,23 +17,8 @@ const featuredNeighborhoods = [
   districts[9].neighborhoods[4], // Poblenou
 ];
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Drain Unclogging Service",
-  "description": description,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Plumber Barcelona",
-    "telephone": PHONE.international,
-    "url": SITES.en
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": "Barcelona"
-  },
-  "serviceType": "Plumbing - Drain Unclogging"
-};
+// Enhanced LocalBusiness + Service schema for better SEO
+const schema = getServicePageSchema('en', 'unclogging', description);
 ---
 
 <Base title={title} description={description} schema={schema}>
