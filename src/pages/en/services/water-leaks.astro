@@ -4,6 +4,7 @@ import PhoneCTA from '../../../components/PhoneCTA.astro';
 import TrustSignals from '../../../components/TrustSignals.astro';
 import { districts } from '../../../data/neighborhoods';
 import { PHONE, SITES } from '../../../lib/constants';
+import { getServicePageSchema } from '../../../lib/schema';
 
 const title = "Water Leak Repair in Barcelona | 24h Plumber";
 const description = `Emergency water leak detection and repair in Barcelona. Professional plumbers available 24/7. We arrive in less than 1 hour. ☎ ${PHONE.display}`;
@@ -16,23 +17,8 @@ const featuredNeighborhoods = [
   districts[9].neighborhoods[4], // Poblenou
 ];
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Water Leak Repair",
-  "description": description,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Plumber Barcelona",
-    "telephone": PHONE.international,
-    "url": SITES.en
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": "Barcelona"
-  },
-  "serviceType": "Plumbing - Water Leak Repair"
-};
+// Enhanced LocalBusiness + Service schema for better SEO
+const schema = getServicePageSchema('en', 'waterLeaks', description);
 ---
 
 <Base title={title} description={description} schema={schema}>

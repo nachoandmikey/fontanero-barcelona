@@ -4,6 +4,7 @@ import PhoneCTA from '../../../components/PhoneCTA.astro';
 import TrustSignals from '../../../components/TrustSignals.astro';
 import { districts } from '../../../data/neighborhoods';
 import { PHONE, SITES } from '../../../lib/constants';
+import { getServicePageSchema } from '../../../lib/schema';
 
 const title = "Fontanero Urgente 24 Horas Barcelona | Emergencias";
 const description = `Servicio de fontanería urgente en Barcelona disponible 24 horas, 7 días a la semana. Llegamos en menos de 1 hora a cualquier barrio. ☎ ${PHONE.display}`;
@@ -11,29 +12,8 @@ const description = `Servicio de fontanería urgente en Barcelona disponible 24 
 // Get all districts for comprehensive coverage listing
 const allDistrictNames = districts.map(d => d.nameEs);
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Fontanero Urgente 24 Horas",
-  "description": description,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Fontanero Barcelona",
-    "telephone": PHONE.international,
-    "url": SITES.es
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": "Barcelona"
-  },
-  "serviceType": "Emergency Plumbing",
-  "hoursAvailable": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    "opens": "00:00",
-    "closes": "23:59"
-  }
-};
+// Enhanced LocalBusiness + Service schema for better SEO
+const schema = getServicePageSchema('es', 'emergency', description);
 ---
 
 <Base title={title} description={description} schema={schema}>

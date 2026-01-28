@@ -2,6 +2,7 @@
 import Base from '../../layouts/Base.astro';
 import { useTranslations } from '../../i18n/utils';
 import { PHONE, PHONE_URL, SITES } from '../../lib/constants';
+import { getHomepageSchema } from '../../lib/schema';
 import ServiceCard from '../../components/ServiceCard.astro';
 import TrustSignals from '../../components/TrustSignals.astro';
 import NeighborhoodCard from '../../components/NeighborhoodCard.astro';
@@ -20,26 +21,8 @@ const featuredNeighborhoods = [
   districts.find(d => d.id === 'sarria-sant-gervasi')?.neighborhoods[0],
 ].filter(Boolean);
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "LocalBusiness",
-  "name": "Plumber Barcelona",
-  "description": "Emergency plumbers in Barcelona 24 hours. We fix water leaks, unclog drains and repair plumbing issues. We arrive in less than 1 hour.",
-  "url": SITES.en,
-  "telephone": PHONE.international,
-  "address": {
-    "@type": "PostalAddress",
-    "addressLocality": "Barcelona",
-    "addressRegion": "Catalonia",
-    "addressCountry": "ES"
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": "Barcelona"
-  },
-  "openingHours": "Mo-Su 00:00-23:59",
-  "priceRange": "€€"
-};
+// Enhanced LocalBusiness + Service schemas for homepage
+const schema = getHomepageSchema('en');
 ---
 
 <Base title="Plumber Barcelona | 24h Emergency Service" schema={schema}>

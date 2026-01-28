@@ -4,6 +4,7 @@ import PhoneCTA from '../../../components/PhoneCTA.astro';
 import TrustSignals from '../../../components/TrustSignals.astro';
 import { districts } from '../../../data/neighborhoods';
 import { PHONE, SITES } from '../../../lib/constants';
+import { getServicePageSchema } from '../../../lib/schema';
 
 const title = "24 Hour Emergency Plumber Barcelona | Emergencies";
 const description = `Emergency plumbing service in Barcelona available 24 hours, 7 days a week. We arrive in less than 1 hour to any neighborhood. ☎ ${PHONE.display}`;
@@ -11,29 +12,8 @@ const description = `Emergency plumbing service in Barcelona available 24 hours,
 // Get all districts for comprehensive coverage listing
 const allDistrictNames = districts.map(d => d.nameEn);
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "24 Hour Emergency Plumber",
-  "description": description,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Plumber Barcelona",
-    "telephone": PHONE.international,
-    "url": SITES.en
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": "Barcelona"
-  },
-  "serviceType": "Emergency Plumbing",
-  "hoursAvailable": {
-    "@type": "OpeningHoursSpecification",
-    "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-    "opens": "00:00",
-    "closes": "23:59"
-  }
-};
+// Enhanced LocalBusiness + Service schema for better SEO
+const schema = getServicePageSchema('en', 'emergency', description);
 ---
 
 <Base title={title} description={description} schema={schema}>

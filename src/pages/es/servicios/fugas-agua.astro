@@ -4,6 +4,7 @@ import PhoneCTA from '../../../components/PhoneCTA.astro';
 import TrustSignals from '../../../components/TrustSignals.astro';
 import { districts } from '../../../data/neighborhoods';
 import { PHONE, SITES } from '../../../lib/constants';
+import { getServicePageSchema } from '../../../lib/schema';
 
 const title = "Reparación de Fugas de Agua en Barcelona | Fontanero 24h";
 const description = `Servicio urgente de detección y reparación de fugas de agua en Barcelona. Fontaneros profesionales disponibles 24/7. Llegamos en menos de 1 hora. ☎ ${PHONE.display}`;
@@ -16,23 +17,8 @@ const featuredNeighborhoods = [
   districts[9].neighborhoods[4], // Poblenou
 ];
 
-const schema = {
-  "@context": "https://schema.org",
-  "@type": "Service",
-  "name": "Reparación de Fugas de Agua",
-  "description": description,
-  "provider": {
-    "@type": "LocalBusiness",
-    "name": "Fontanero Barcelona",
-    "telephone": PHONE.international,
-    "url": SITES.es
-  },
-  "areaServed": {
-    "@type": "City",
-    "name": "Barcelona"
-  },
-  "serviceType": "Plumbing - Water Leak Repair"
-};
+// Enhanced LocalBusiness + Service schema for better SEO
+const schema = getServicePageSchema('es', 'waterLeaks', description);
 ---
 
 <Base title={title} description={description} schema={schema}>
