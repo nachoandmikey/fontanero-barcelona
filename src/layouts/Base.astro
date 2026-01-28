@@ -166,7 +166,7 @@ const breadcrumbSchema = breadcrumbItems.length > 1 ? {
     
     <!-- OpenPanel Analytics - deferred to not block main thread -->
     <script is:inline>
-      window.op=window.op||function(){var n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
+      window.op=window.op||function(){const n=[];return new Proxy(function(){arguments.length&&n.push([].slice.call(arguments))},{get:function(t,r){return"q"===r?n:function(){n.push([r].concat([].slice.call(arguments)))}},has:function(t,r){return"q"===r}})}();
       window.op('init', {
         clientId: '0708e62d-df2f-4bfc-8c27-c9cabb7ebe46',
         trackScreenViews: true,
@@ -176,13 +176,13 @@ const breadcrumbSchema = breadcrumbItems.length > 1 ? {
       // Load OpenPanel script after page is interactive
       if ('requestIdleCallback' in window) {
         requestIdleCallback(function() {
-          var s = document.createElement('script');
+          const s = document.createElement('script');
           s.src = 'https://openpanel.dev/op1.js';
           document.head.appendChild(s);
         });
       } else {
         setTimeout(function() {
-          var s = document.createElement('script');
+          const s = document.createElement('script');
           s.src = 'https://openpanel.dev/op1.js';
           document.head.appendChild(s);
         }, 1);
